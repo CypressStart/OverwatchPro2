@@ -1,0 +1,5 @@
+﻿ID-1;Type-Cube;X-10;Y-11;Z-22;ROT-10
+ID-2;Type-Cube;X-20;Y-11;Z-22;ROT-10
+ID-3;Type-Cube;X-30;Y-11;Z-22;ROT-10
+ID-4;Type-Cube;X-40;Y-11;Z-22;ROT-10
+ID-5;Type-Cube;X-50;Y-11;Z-22;ROT-10
