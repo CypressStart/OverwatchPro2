@@ -15,7 +15,8 @@ public class PartItem : ItemBase
     public bool IsPublicCamera = false;//公共摄像头点击相应不同
     public void SetState(bool isShow)
     {
-        gameObject.SetActive(isShow);
+        if (null != gameObject)
+            gameObject.SetActive(isShow);
     }
 
     internal void Refresh(PartData partData)

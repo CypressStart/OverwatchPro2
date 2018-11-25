@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.IO;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System;
+using System.IO;
 using UnityEngine;
 
 /// <summary>
@@ -16,6 +16,7 @@ public class DataManager : MonoBehaviour
     {
         return _instance;
     }
+
     private void Awake()
     {
         if (null != _instance)
@@ -26,24 +27,26 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(this);
         _instance = this;
     }
-    const string DATA_PATH_KEY = "DATA_PATH";
-    const string DATA_FILENAME = "DATA.txt";
 
-    const string DATA_FILENAME_STATION = "StationData.txt";
-    const string DATA_FILENAME_EQUIP = "EquipmentData.txt";
-    const string DATA_FILENAME_INFO = "InformationList.txt";
+    private const string DATA_PATH_KEY = "DATA_PATH";
+    private const string DATA_FILENAME = "DATA.txt";
 
-    const string DATA_Type_STATION = "STATION";
-    const string DATA_Type_CAMERA = "CAMERA";
-    const string DATA_Type_CABINET = "CABINET";
-    const string DATA_Type_MAN = "NAMELIST";
-    const string DATA_TYPE_PUBLIC_CAMERA = "PUBLIC_CAMERA";
+    private const string DATA_FILENAME_STATION = "StationData.txt";
+    private const string DATA_FILENAME_EQUIP = "EquipmentData.txt";
+    private const string DATA_FILENAME_INFO = "InformationList.txt";
+    private const string DATA_FILENAME_CONFIG = "Config.txt";
 
+    private const string DATA_Type_STATION = "STATION";
+    private const string DATA_Type_CAMERA = "CAMERA";
+    private const string DATA_Type_CABINET = "CABINET";
+    private const string DATA_Type_MAN = "NAMELIST";
+    private const string DATA_TYPE_PUBLIC_CAMERA = "PUBLIC_CAMERA";
 
+    private const string TEST_Data_Path = "file:///F:/Project/OverwatchPro2/Data/";
 
-    const string DATA_Type_Scene_Message_Panel = "SCENE_MESSAGE_PANEL";
+    private const string DATA_Type_Scene_Message_Panel = "SCENE_MESSAGE_PANEL";
 
-    const float UPDATE_TIME = 30;//30S更新一次
+    private const float UPDATE_TIME = 30;//30S更新一次
 
     public GameObject CameraObj;
     public GameObject CabinetObj;
@@ -60,6 +63,8 @@ public class DataManager : MonoBehaviour
     private List<PartData> m_CabinetDataList = new List<PartData>();
     private List<PartData> m_PublicCameraDataList = new List<PartData>();//公共色相头
     private Dictionary<string, List<string>> m_ManData = new Dictionary<string, List<string>>();
+
+    private List<ModelData> m_ModelConfigList = null;
 
     private bool m_bIsInit = false;
     private float m_fTimeIndex;
@@ -102,11 +107,13 @@ public class DataManager : MonoBehaviour
             return;
         }
         Debug.Log("加载数据");
+        if (null == m_ModelConfigList)
+            StartCoroutine(LoadConfig());
+
         StartCoroutine(LoadStation());
         StartCoroutine(LoadEquipmentData());
         //StartCoroutine(LoadInformationList());
     }
-
 
     /// <summary>
     /// 读取文本文件
@@ -141,16 +148,14 @@ public class DataManager : MonoBehaviour
         sr.Dispose();
         //将数组链表容器返回
         return arrlist;
-
     }
 
     private IEnumerator LoadStation()
     {
-        var path = m_strDataPath + "/" + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION;
+        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION;
         //var www = new WWW(path);
-        Debug.LogError("http://192.168.0.103/" + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION + "......");
 
-        var www = new WWW("file:///F:/Data/" + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION);
+        var www = new WWW(TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION);
         yield return www;
         string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
         if (string.IsNullOrEmpty(strAll))
@@ -173,7 +178,7 @@ public class DataManager : MonoBehaviour
         m_PublicCameraDataList.Clear();
         for (int i = 0; i < m_DataStrList.Count; i++)
         {
-            Adaptive(m_DataStrList[i].Split(';'));
+            AdaptiveStation(m_DataStrList[i].Split(';'));
         }
 
         ItemManager.GetInstance().RefreshCamera(m_CameraDataList);
@@ -189,9 +194,9 @@ public class DataManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator LoadEquipmentData()
     {
-        var path = m_strDataPath + "/" + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP;
+        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP;
         //var www = new WWW(path);
-        var www = new WWW("file:///F:/Data/" + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP);
+        var www = new WWW(TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP);
 
         yield return www;
         string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
@@ -211,9 +216,9 @@ public class DataManager : MonoBehaviour
         {
             AdaptiveEquipmentData(sr[i].Split(';'));
         }
-        Debug.LogError(sr.Length + "/" + m_EquipmentDataList.Count);
         //加载物体
-        ItemManager.GetInstance().LoadEquipment(m_EquipmentDataList);
+        if (m_EquipmentDataList.Count > 0)
+            ItemManager.GetInstance().LoadEquipment(m_EquipmentDataList);
     }
 
     /// <summary>
@@ -222,9 +227,9 @@ public class DataManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator LoadInformationList()
     {
-        var path = m_strDataPath + "/" + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP;
+        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP;
         //var www = new WWW(path);
-        var www = new WWW("file:///F:/Data/" + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP);
+        var www = new WWW(TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP);
         yield return www;
         string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
         if (string.IsNullOrEmpty(strAll))
@@ -246,7 +251,41 @@ public class DataManager : MonoBehaviour
         //TODO:根据m_EquipmentDataList 找ID添加UI信息
     }
 
-    private void Adaptive(string[] strArr)
+    /// <summary>
+    /// 加载配置
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator LoadConfig()
+    {
+        var path = TEST_Data_Path + DATA_FILENAME_CONFIG;
+        //var www = new WWW(path);
+        var www = new WWW(path);
+        yield return www;
+        string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
+        if (string.IsNullOrEmpty(strAll))
+        {
+            //如果无法从网络读取  从本地读测试数据
+            Debug.LogError("无法从" + path + " 获取数据,将加载测试数据." + "WWWerror:" + www.error);
+        }
+        string[] sr = strAll.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+
+        m_fTimeIndex = 0;
+        if (null == sr || sr.Length <= 0)
+            yield return 0;
+        m_ModelConfigList = new List<ModelData>();
+        //解析数据
+        for (int i = 0; i < sr.Length; i++)
+        {
+            if (string.IsNullOrEmpty(sr[i]))
+                continue;
+            var _sr = sr[i].Split('-');
+            if (_sr.Length <= 1)
+                continue;
+            m_ModelConfigList.Add(new ModelData() { Name = _sr[0], Path = _sr[1] });
+        }
+    }
+
+    private void AdaptiveStation(string[] strArr)
     {
         if (null == strArr || strArr.Length <= 0)
             return;
@@ -276,6 +315,7 @@ public class DataManager : MonoBehaviour
                     m_StationDataList.Add(data);
                 }
                 break;
+
             case DATA_Type_CAMERA:
                 {
                     if (strArr.Length < 7)
@@ -296,6 +336,7 @@ public class DataManager : MonoBehaviour
                     m_CameraDataList.Add(data);
                 }
                 break;
+
             case DATA_Type_CABINET:
                 {
                     if (strArr.Length < 7)
@@ -317,6 +358,7 @@ public class DataManager : MonoBehaviour
                     m_CabinetDataList.Add(data);
                 }
                 break;
+
             case DATA_TYPE_PUBLIC_CAMERA:
                 {
                     if (strArr.Length < 2)
@@ -330,6 +372,7 @@ public class DataManager : MonoBehaviour
                     m_PublicCameraDataList.Add(data);
                 }
                 break;
+
             case DATA_Type_MAN:
                 {
                     string id = strArr[1];
@@ -338,14 +381,15 @@ public class DataManager : MonoBehaviour
                         m_ManData.Add(id, new List<string>(nameArr));
                 }
                 break;
+
             case DATA_Type_Scene_Message_Panel:
                 {
                     string content = strArr[1];
                     content = content.Replace('^', '\n');
-                    UIManager.GetInstance().SetSceneMessagePanel(content);
+                    if (null != UIManager.GetInstance())
+                        UIManager.GetInstance().SetSceneMessagePanel(content);
                 }
                 break;
-
         }
     }
 
@@ -356,6 +400,8 @@ public class DataManager : MonoBehaviour
         var data = new PartData();
         for (int i = 0; i < strArr.Length; i++)
         {
+            if (string.IsNullOrEmpty(strArr[i]))
+                continue;
             var optionArr = strArr[i].Split('-');//长度必定为2
             if (null == optionArr || optionArr.Length < 2)
                 continue;
@@ -365,6 +411,7 @@ public class DataManager : MonoBehaviour
                     data.ID = optionArr[1];
                     //Debug.LogError(optionArr[0] + "/" + optionArr[1]);
                     break;
+
                 case "ROT": data.Rot = Quaternion.Euler(0, float.Parse(optionArr[1]), 0); break;
                 case "TYPE": data.ItemType = optionArr[1]; break;
                 case "X": data.Pos.x = float.Parse(optionArr[1]); break;
@@ -406,6 +453,16 @@ public class DataManager : MonoBehaviour
             m_InformationDataList.Add(data);
         }
     }
+
+    public string GetPath(string name)
+    {
+        for (int i = 0; i < m_ModelConfigList.Count; i++)
+        {
+            if (m_ModelConfigList[i].Name == name)
+                return m_ModelConfigList[i].Path;
+        }
+        return string.Empty;
+    }
 }
 
 public class InformationData
@@ -429,7 +486,6 @@ public enum EContentViewType
     E_Other,
 }
 
-
 //工位 机构 type/id/version/node/rate/state/leader/date/link
 public struct StationData
 {
@@ -438,6 +494,7 @@ public struct StationData
     public string Node;
     public string Rate;
     private int m_nStateType;
+
     public int StateType
     {
         get { return m_nStateType; }
@@ -453,11 +510,13 @@ public struct StationData
             }
         }
     } //0正常 1异常 2暂停 3空闲
+
     public string State;//
     public string Leader;
     public string Date;
     public string Link;
     public string MissionType;//1中型任务 2大型任务
+
     public string MissionTypeName
     {
         get
@@ -470,6 +529,7 @@ public struct StationData
             return "无任务";
         }
     }
+
     public string Style;//1双排2半包围3单排
     public int RotateIndex;
 }
@@ -485,3 +545,8 @@ public struct PartData
     public string ItemType;
 }
 
+public struct ModelData
+{
+    public string Name;
+    public string Path;
+}

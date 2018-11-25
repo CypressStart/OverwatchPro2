@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 单位管理
@@ -43,6 +44,15 @@ public class ItemManager
         m_lStationItemList.Add(item);
     }
 
+    public void Release()
+    {
+        m_lStationItemList.Clear();
+        m_lCameraItemList.Clear();
+        m_lCabinetItemList.Clear();
+        m_lCameraCache.Clear();
+        m_lCabinetCache.Clear();
+        m_PublicItemList.Clear();
+    }
 
     /// <summary>
     /// 一一对应
@@ -212,7 +222,14 @@ public class ItemManager
             var item = GetPublicItem(equipDataList[i].ID);
             if (null == item)//创建新物体
             {
-                var obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                var res = Resources.Load(DataManager.GetInstance().GetPath(equipDataList[i].ItemType)) as GameObject;
+                if (null == res)
+                    continue;
+                var obj = GameObject.Instantiate(res);
+                Debug.LogError("..........." + DataManager.GetInstance().GetPath(equipDataList[i].ItemType));
+
+                if (null == obj)
+                    obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 item = obj.AddComponent<PartItem>();
                 item.Refresh(equipDataList[i]);
                 m_PublicItemList.Add(item);

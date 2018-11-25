@@ -23,6 +23,7 @@ public class BulidingDev : MonoBehaviour
     {
         if (m_SceneIndex <= 0)
             return;
+        ItemManager.GetInstance().Release();
         SceneManager.LoadScene(m_SceneIndex);
     }
 }
