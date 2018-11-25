@@ -19,9 +19,13 @@ public class CameraController : MonoBehaviour
 
     private float m_MovementUpper = 29.5f;//摄像机位移限制
     private float m_MovementFloor = .5f;
+    [SerializeField]
     private float m_MovementL = -30f;//西
+    [SerializeField]
     private float m_MovementR = 30f;//东面
+    [SerializeField]
     private float m_MovementF = 16f;//北面
+    [SerializeField]
     private float m_MovementB = -19f;//南
 
     //方向灵敏度  

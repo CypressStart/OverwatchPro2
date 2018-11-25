@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class ItemManager
 {
+    const string FLOATUI_PATH = "Prefab/UI/InfoGroup";
+
     private static ItemManager _instance;
 
     public static ItemManager GetInstance()
@@ -29,10 +31,12 @@ public class ItemManager
     private List<PartItem> m_lCabinetCache = new List<PartItem>();
 
     public List<PartItem> m_PublicItemList = new List<PartItem>();//公用添加物体 公共摄像机后边和这里合并
-
+    private List<FloatInfoUIDev> m_FloatInfoUIDevList = new List<FloatInfoUIDev>();
     private bool m_bIsSortedStation = false;
 
     public StationItem CurSelectStation { get; internal set; }
+
+    private UnityEngine.Object m_Res_FloatUI;
 
     public void AddStation(StationItem item)
     {
@@ -226,7 +230,6 @@ public class ItemManager
                 if (null == res)
                     continue;
                 var obj = GameObject.Instantiate(res);
-                Debug.LogError("..........." + DataManager.GetInstance().GetPath(equipDataList[i].ItemType));
 
                 if (null == obj)
                     obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -247,6 +250,52 @@ public class ItemManager
         {
             if (m_PublicItemList[i].ID == id)
                 return m_PublicItemList[i];
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 加载场景内浮动信息 根据设备
+    /// </summary>
+    /// <param name="m_InformationDataList"></param>
+    internal void LoadInformation(List<InformationData> m_InformationDataList)
+    {
+        if (null == m_InformationDataList || m_InformationDataList.Count <= 0)
+            return;
+        if (null == m_Res_FloatUI)
+        {
+            m_Res_FloatUI = Resources.Load(FLOATUI_PATH);
+        }
+        for (int i = 0; i < m_InformationDataList.Count; i++)
+        {
+            var item = GetPublicItem(m_InformationDataList[i].ID);
+            if (null == item || null == m_Res_FloatUI)
+                continue;
+
+            var infoUI = GetFloatInfoUIDev(m_InformationDataList[i].ID);
+            if (null == infoUI)
+            {
+                var infoObj = UnityEngine.Object.Instantiate(m_Res_FloatUI) as GameObject;
+                infoObj.transform.SetParent(GameObject.FindWithTag("FloatUIGroup").transform, false);
+
+                infoUI = infoObj.GetComponent<FloatInfoUIDev>();
+                infoUI.Initialized(m_InformationDataList[i]);
+                infoUI.SetNode(item.gameObject);
+                m_FloatInfoUIDevList.Add(infoUI);
+            }
+            else
+            {
+                infoUI.Modification(m_InformationDataList[i]);
+            }
+        }
+    }
+
+    private FloatInfoUIDev GetFloatInfoUIDev(string ID)
+    {
+        for (int i = 0; i < m_FloatInfoUIDevList.Count; i++)
+        {
+            if (m_FloatInfoUIDevList[i].ID == ID)
+                return m_FloatInfoUIDevList[i];
         }
         return null;
     }

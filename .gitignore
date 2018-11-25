@@ -6287,3 +6287,8 @@ trunk/OverwatchPro.sln
 trunk/OverwatchPro2.0.csproj
 trunk/OverwatchPro2.0.Editor.csproj
 trunk/OverwatchPro2.0.sln
+trunk/Unity.PackageManagerUI.Editor.csproj
+trunk/Unity.TextMeshPro.csproj
+trunk/Unity.TextMeshPro.Editor.csproj
+trunk/UnityEditor.StandardEvents.csproj
+trunk/Unity.PackageManagerUI.Editor.csproj

@@ -1,0 +1,5 @@
+ID@1;Link@SEFSDF;1aaa@111@1;1bbb@axdsf@1;1ccc@asdqw@1;1ddd@sdfsdf@0;1fff@sdfsdf@0;1eee@sdfsdf@0
+ID@2;Link@SEFSDF;2aaa@111@1;2bbb@axdsf@1;1ccc@asdqw@1;1ddd@sdfsdf@0;1fff@sdfsdf@0;1eee@sdfsdf@0
+ID@3;Link@SEFSDF;3aaa@111@1;3bbb@axdsf@1;1ccc@asdqw@1;1ddd@sdfsdf@0;1fff@sdfsdf@0;1eee@sdfsdf@0
+ID@4;Link@SEFSDF;4aaa@111@1;4bbb@axdsf@1;1ccc@asdqw@1;1ddd@sdfsdf@0;1fff@sdfsdf@0;1eee@sdfsdf@0
+ID@5;Link@SEFSDF;5aaa@111@1;5bbb@axdsf@1;1ccc@asdqw@1;1ddd@sdfsdf@0;1fff@sdfsdf@0;1eee@sdfsdf@0

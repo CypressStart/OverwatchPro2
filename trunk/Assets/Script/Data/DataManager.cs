@@ -112,7 +112,7 @@ public class DataManager : MonoBehaviour
 
         StartCoroutine(LoadStation());
         StartCoroutine(LoadEquipmentData());
-        //StartCoroutine(LoadInformationList());
+        StartCoroutine(LoadInformationList());
     }
 
     /// <summary>
@@ -227,9 +227,9 @@ public class DataManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator LoadInformationList()
     {
-        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP;
+        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_INFO;
         //var www = new WWW(path);
-        var www = new WWW(TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP);
+        var www = new WWW(path);
         yield return www;
         string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
         if (string.IsNullOrEmpty(strAll))
@@ -243,12 +243,15 @@ public class DataManager : MonoBehaviour
         if (null == sr || sr.Length <= 0)
             yield return 0;
         //解析数据
+        m_InformationDataList.Clear();
         for (int i = 0; i < sr.Length; i++)
         {
             AdaptiveInfomationData(sr[i].Split(';'));
         }
         //显示UI
         //TODO:根据m_EquipmentDataList 找ID添加UI信息
+        if (m_InformationDataList.Count > 0)
+            ItemManager.GetInstance().LoadInformation(m_InformationDataList);
     }
 
     /// <summary>
@@ -278,7 +281,7 @@ public class DataManager : MonoBehaviour
         {
             if (string.IsNullOrEmpty(sr[i]))
                 continue;
-            var _sr = sr[i].Split('-');
+            var _sr = sr[i].Split('@');
             if (_sr.Length <= 1)
                 continue;
             m_ModelConfigList.Add(new ModelData() { Name = _sr[0], Path = _sr[1] });
@@ -402,7 +405,7 @@ public class DataManager : MonoBehaviour
         {
             if (string.IsNullOrEmpty(strArr[i]))
                 continue;
-            var optionArr = strArr[i].Split('-');//长度必定为2
+            var optionArr = strArr[i].Split('@');//长度必定为2
             if (null == optionArr || optionArr.Length < 2)
                 continue;
             switch (optionArr[0])
@@ -427,31 +430,33 @@ public class DataManager : MonoBehaviour
     {
         if (null == strArr || strArr.Length <= 0)
             return;
-        m_InformationDataList.Clear();
+        var data = new InformationData();
+        data.Contentlist = new List<InfoContent>();
         for (int i = 0; i < strArr.Length; i++)
         {
-            var optionArr = strArr[i].Split(':');//长度至少为2
+            if (string.IsNullOrEmpty(strArr[i]))
+                continue;
+            var optionArr = strArr[i].Split('@');//长度至少为2
             if (null == optionArr || optionArr.Length < 2)
                 continue;
-            var data = new InformationData();
-            data.Contentlist = new List<Content>();
             switch (optionArr[0])
             {
                 case "ID": data.ID = optionArr[1]; break;
                 case "Link": data.Link = optionArr[1]; break;
                 default:
                     {
-                        data.Contentlist.Add(new Content
-                        {
-                            Name = optionArr[0],
-                            Value = optionArr[1],
-                            ViewType = (EContentViewType)int.Parse(optionArr[3])
-                        });
+                        if (optionArr.Length > 2)
+                            data.Contentlist.Add(new InfoContent
+                            {
+                                Name = optionArr[0],
+                                Value = optionArr[1],
+                                ViewType = (EContentViewType)int.Parse(optionArr[2])
+                            });
                     }
                     break;
             }
-            m_InformationDataList.Add(data);
         }
+        m_InformationDataList.Add(data);
     }
 
     public string GetPath(string name)
@@ -469,10 +474,10 @@ public class InformationData
 {
     public string ID;
     public string Link;
-    public List<Content> Contentlist;
+    public List<InfoContent> Contentlist;
 }
 
-public class Content
+public class InfoContent
 {
     public string Name;
     public string Value;
