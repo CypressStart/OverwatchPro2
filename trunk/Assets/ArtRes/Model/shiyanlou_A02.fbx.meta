@@ -1,20 +1,18 @@
 fileFormatVersion: 2
-guid: 9131322476b3413449ff8296e20c8c78
+guid: 4b2b158424301454d959963e47314b81
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Rectangle006SG1
-    2100002: LATRINESG1
-    2100004: Rectangle037SG1
-    2100006: Object102SG1
-    2100008: xian1SG1
-    2100010: qiang01SG1
-    2100012: Rectangle013SG1
-    2100014: initialShadingGroup1
-    2100016: 000001SG1
-    2100018: Plane001SG1
+    2100000: chuanghu_m
+    2100002: qiang_m
+    2100004: men_m
+    2100006: dibiao_m
+    2100008: xiaofang_m
+    2100010: di_m
+    2100012: menba_m
+    2100014: lvpi_m
     2300000: //RootNode
     3300000: //RootNode
     4300000: shiyanlou_A02

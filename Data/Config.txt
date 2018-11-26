@@ -4,3 +4,5 @@ Cube2@Prefab/Cube2
 Cube3@Prefab/Cube3
 Cube4@Prefab/Cube4
 Cube5@Prefab/Cube5
+M01@Prefab/Machine01
+jcx@Prefab/jcx

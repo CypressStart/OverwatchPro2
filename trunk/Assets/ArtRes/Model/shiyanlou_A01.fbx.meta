@@ -1,20 +1,27 @@
 fileFormatVersion: 2
-guid: 1fd88294fb7b91d44a9aa08aa10dfb25
+guid: 4cbf1a55a63123e40b86a116a8b1ca5c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
     2100000: Object001SG1
-    2100002: LATRINESG1
-    2100004: Rectangle001SG1
-    2100006: SG
-    2100008: Rectangle037SG1
+    2100002: Rectangle001SG1
+    2100004: aaa_0SG1
+    2100006: Rectangle037SG1
+    2100008: lambert2SG1
     2100010: Plane001SG1
-    2100012: initialShadingGroup1
+    2100012: aaa_initialShadingGroup1
+    2100014: qiang_m
+    2100016: chuanghu_m
+    2100018: xiaofang_m
+    2100020: men_m
+    2100022: menba_m
+    2100024: di_m
+    2100026: dibiao_m
     2300000: //RootNode
     3300000: //RootNode
-    4300000: shiyanlou_A01
+    4300000: shiyanlou_01
   externalObjects: {}
   materials:
     importMaterials: 1
