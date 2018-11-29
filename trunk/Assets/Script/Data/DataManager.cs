@@ -214,7 +214,8 @@ public class DataManager : MonoBehaviour
         m_EquipmentDataList.Clear();
         for (int i = 0; i < sr.Length; i++)
         {
-            AdaptiveEquipmentData(sr[i].Split(';'));
+            if (!string.IsNullOrEmpty(sr[i]))
+                AdaptiveEquipmentData(sr[i].Split(';'));
         }
         //加载物体
         if (m_EquipmentDataList.Count > 0)
