@@ -1,8 +1,2 @@
-Cube0@Prefab/Cube0
-Cube1@Prefab/Cube1
-Cube2@Prefab/Cube2
-Cube3@Prefab/Cube3
-Cube4@Prefab/Cube4
-Cube5@Prefab/Cube5
-M01@Prefab/Machine01
-jcx@Prefab/jcx
+TS6S@Prefab/Equipment/shiyanlou1F/TS6S
+TestGroup@Prefab/Equipment/shiyanlou1F/testGroup
