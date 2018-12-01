@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
+using cakeslice;
 
 public class PartItem : ItemBase
 {
@@ -13,6 +15,7 @@ public class PartItem : ItemBase
     private _LookAtCamera m_str;
     [HideInInspector]
     public bool IsPublicCamera = false;//公共摄像头点击相应不同
+
     public void SetState(bool isShow)
     {
         if (null != gameObject)

@@ -284,6 +284,8 @@ public class ItemManager
                 infoUI = infoObj.GetComponent<FloatInfoUIDev>();
                 infoUI.Initialized(m_InformationDataList[i]);
                 infoUI.SetNode(item.gameObject);
+                item.OnMouseEnterCallBack = infoUI.ShowDetail;
+                item.OnMouseExitCallBack = infoUI.HideDetail;
                 m_FloatInfoUIDevList.Add(infoUI);
             }
             else
