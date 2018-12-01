@@ -285,6 +285,7 @@ public class ItemManager
                 infoUI.Initialized(m_InformationDataList[i]);
                 infoUI.SetNode(item.gameObject);
                 item.OnMouseEnterCallBack = infoUI.ShowDetail;
+                item.OnMouseEnterCallBack += infoUI.MoveToUp;
                 item.OnMouseExitCallBack = infoUI.HideDetail;
                 m_FloatInfoUIDevList.Add(infoUI);
             }

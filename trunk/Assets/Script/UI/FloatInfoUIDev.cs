@@ -167,6 +167,13 @@ public class FloatInfoUIDev : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 显示在最前边
+    /// </summary>
+    public void MoveToUp()
+    {
+        transform.SetSiblingIndex(transform.parent.childCount - 1);
+    }
 
     public void ShowDetail()
     {
