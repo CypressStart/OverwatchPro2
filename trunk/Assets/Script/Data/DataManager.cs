@@ -26,6 +26,7 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(this);
         _instance = this;
+        Debug.LogError(Application.dataPath);
     }
 
     private const string DATA_PATH_KEY = "DATA_PATH";
@@ -152,10 +153,10 @@ public class DataManager : MonoBehaviour
 
     private IEnumerator LoadStation()
     {
-        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION;
+        var path = m_strDataPath + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION;
         //var www = new WWW(path);
 
-        var www = new WWW(TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION);
+        var www = new WWW(m_strDataPath + m_strCurSceneDataPath + "/" + DATA_FILENAME_STATION);
         yield return www;
         string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
         if (string.IsNullOrEmpty(strAll))
@@ -194,9 +195,9 @@ public class DataManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator LoadEquipmentData()
     {
-        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP;
+        var path = m_strDataPath + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP;
         //var www = new WWW(path);
-        var www = new WWW(TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP);
+        var www = new WWW(m_strDataPath + m_strCurSceneDataPath + "/" + DATA_FILENAME_EQUIP);
 
         yield return www;
         string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
@@ -228,7 +229,7 @@ public class DataManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator LoadInformationList()
     {
-        var path = TEST_Data_Path + m_strCurSceneDataPath + "/" + DATA_FILENAME_INFO;
+        var path = m_strDataPath + m_strCurSceneDataPath + "/" + DATA_FILENAME_INFO;
         //var www = new WWW(path);
         var www = new WWW(path);
         yield return www;
@@ -261,7 +262,7 @@ public class DataManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator LoadConfig()
     {
-        var path = TEST_Data_Path + DATA_FILENAME_CONFIG;
+        var path = m_strDataPath + DATA_FILENAME_CONFIG;
         //var www = new WWW(path);
         var www = new WWW(path);
         yield return www;
