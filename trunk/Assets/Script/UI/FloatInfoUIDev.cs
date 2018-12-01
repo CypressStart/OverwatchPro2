@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FloatInfoUIDev : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class FloatInfoUIDev : MonoBehaviour
     private void Awake()
     {
         m_scale = transform.localScale;
+        m_fSpacing = m_ListTransform.GetComponent<VerticalLayoutGroup>().spacing;
     }
 
     private void Start()
