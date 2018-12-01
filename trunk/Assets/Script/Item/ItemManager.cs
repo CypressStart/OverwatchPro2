@@ -24,6 +24,8 @@ public class ItemManager
     const string PATH_CAMERA_PREFAB = "Prefab/Camera";
 
     private List<StationItem> m_lStationItemList = new List<StationItem>();
+
+
     private List<PartItem> m_lCameraItemList = new List<PartItem>();
     private List<PartItem> m_lCabinetItemList = new List<PartItem>();
 
@@ -56,6 +58,7 @@ public class ItemManager
         m_lCameraCache.Clear();
         m_lCabinetCache.Clear();
         m_PublicItemList.Clear();
+        m_bIsShowFloatUI = true;
     }
 
     /// <summary>
@@ -299,4 +302,17 @@ public class ItemManager
         }
         return null;
     }
+
+    private bool m_bIsShowFloatUI = true;
+    internal void SwitchFloatUIState()
+    {
+        if (m_FloatInfoUIDevList.Count <= 0)
+            return;
+        m_bIsShowFloatUI = !m_bIsShowFloatUI;
+        for (int i = 0; i < m_FloatInfoUIDevList.Count; i++)
+        {
+            m_FloatInfoUIDevList[i].gameObject.SetActive(m_bIsShowFloatUI);
+        }
+    }
+
 }

@@ -79,4 +79,26 @@ public class MyWindow : EditorWindow
         //        }
         //    }
     }
+    static Component[] copiedComponents;
+
+    [MenuItem("Tools/Copy Current Components #&C")]
+    static void Copy()
+    {
+        copiedComponents = Selection.activeGameObject.GetComponents<Component>();
+    }
+
+    [MenuItem("Tools/Paste Current Components #&V")]
+    static void Paste()
+    {
+        foreach (var targetGameObject in Selection.gameObjects)
+        {
+            if (!targetGameObject || copiedComponents == null) continue;
+            foreach (var copiedComponent in copiedComponents)
+            {
+                if (!copiedComponent) continue;
+                UnityEditorInternal.ComponentUtility.CopyComponent(copiedComponent);
+                UnityEditorInternal.ComponentUtility.PasteComponentAsNew(targetGameObject);
+            }
+        }
+    }
 }

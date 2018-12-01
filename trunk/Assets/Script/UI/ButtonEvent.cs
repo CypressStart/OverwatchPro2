@@ -20,4 +20,12 @@ public class ButtonEvent : MonoBehaviour
             SceneManager.LoadScene(sceneIndex);
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void SetFloatUI()
+    {
+        ItemManager.GetInstance().SwitchFloatUIState();
+    }
 }
