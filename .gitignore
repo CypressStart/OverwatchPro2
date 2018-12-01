@@ -23,4 +23,5 @@ trunk/Unity.TextMeshPro.csproj
 trunk/Unity.TextMeshPro.Editor.csproj
 trunk/UnityEditor.StandardEvents.csproj
 trunk/Unity.PackageManagerUI.Editor.csproj
+build/*
 *.csproj
