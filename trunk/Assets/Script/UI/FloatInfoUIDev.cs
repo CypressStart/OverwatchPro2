@@ -45,55 +45,6 @@ public class FloatInfoUIDev : MonoBehaviour
     private void Update()
     {
         UpdatePos();
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            var data = new InformationData();
-            data.ID = "11";
-            data.Contentlist = new List<InfoContent>();
-            data.Contentlist.Add(new InfoContent()
-            {
-                Name = "aaa",
-                Value = "111",
-                ViewType = EContentViewType.E_Show
-            });
-
-            data.Contentlist.Add(new InfoContent()
-            {
-                Name = "bbb",
-                Value = "222",
-                ViewType = EContentViewType.E_Show
-            });
-
-            data.Contentlist.Add(new InfoContent()
-            {
-                Name = "ccc",
-                Value = "333",
-                ViewType = EContentViewType.E_Show
-            });
-
-            data.Contentlist.Add(new InfoContent()
-            {
-                Name = "aaa1",
-                Value = "a111",
-                ViewType = EContentViewType.E_Hide
-            });
-
-            data.Contentlist.Add(new InfoContent()
-            {
-                Name = "bbb2",
-                Value = "b222",
-                ViewType = EContentViewType.E_Hide
-            });
-
-            data.Contentlist.Add(new InfoContent()
-            {
-                Name = "ccc3",
-                Value = "c333",
-                ViewType = EContentViewType.E_Hide
-            });
-            Initialized(data);
-        }
-
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ShowDetail();
@@ -171,6 +122,7 @@ public class FloatInfoUIDev : MonoBehaviour
         m_Data = info;
         var list = info.Contentlist;
         m_nTotalInfoCount = list.Count;
+        m_nNormalInfoCount = 0;
         for (int i = 0; i < list.Count; i++)
         {
             if (list[i].ViewType == EContentViewType.E_Show)
@@ -181,9 +133,11 @@ public class FloatInfoUIDev : MonoBehaviour
             obj.transform.SetParent(m_ListTransform, false);
             dev.SetContent(list[i].Name, list[i].Value);
             obj.SetActive(true);
+            dev.IsHide = list[i].ViewType == EContentViewType.E_Hide;
             m_ItemList.Add(dev);
         }
         SetContentHight(m_nNormalInfoCount * m_fHight);
+        SetHidenItemState(false);
     }
 
     public float ContentHight { get { return m_Content.sizeDelta.y; } }
@@ -195,17 +149,20 @@ public class FloatInfoUIDev : MonoBehaviour
         m_Content.sizeDelta = der;
     }
 
-    public void Show(bool detail = false)
+    public void SetHidenItemState(bool isShow)
     {
+        for (int i = 0; i < m_ItemList.Count; i++)
+        {
+            if (m_ItemList[i].IsHide)
+                m_ItemList[i].gameObject.SetActive(isShow);
+        }
     }
 
-    public void Hide()
-    {
-    }
-
+  
     public void ShowDetail()
     {
         if (m_bIsShowDetail) return;
+        SetHidenItemState(true);
         m_bIsShowDetail = true;
 
         m_IsAnimRunning = true;
@@ -216,6 +173,7 @@ public class FloatInfoUIDev : MonoBehaviour
     public void HideDetail()
     {
         if (!m_bIsShowDetail) return;
+        SetHidenItemState(false);
         m_bIsShowDetail = false;
 
         m_IsAnimRunning = true;

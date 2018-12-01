@@ -10,6 +10,9 @@ public class FloatInfoItem : MonoBehaviour
     [SerializeField]
     private Text m_ValueText;
 
+
+    public bool IsHide { get; set; }
+
     // Use this for initialization
     void Start()
     {
