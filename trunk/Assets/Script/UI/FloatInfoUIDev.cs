@@ -41,6 +41,7 @@ public class FloatInfoUIDev : MonoBehaviour
 
     private void Awake()
     {
+        m_scale = transform.localScale;
     }
 
     private void Start()
@@ -86,9 +87,9 @@ public class FloatInfoUIDev : MonoBehaviour
         }
         if (!IsAPointInACamera(m_MainCamera, TargetPos))
         {
-            //if (Vector3.zero != transform.localScale)
-            //    transform.localScale = Vector3.zero;
-            //return;
+            if (Vector3.zero != transform.localScale)
+                transform.localScale = Vector3.zero;
+            return;
         }
         if (Vector3.zero == transform.localScale)
             transform.localScale = m_scale;
