@@ -142,7 +142,7 @@ public class FloatInfoUIDev : MonoBehaviour
             dev.IsHide = list[i].ViewType == EContentViewType.E_Hide;
             m_ItemList.Add(dev);
         }
-        SetContentHight(m_nNormalInfoCount * +((m_nNormalInfoCount - 1) * m_fSpacing));
+        SetContentHight(m_nNormalInfoCount * m_fHight + ((m_nNormalInfoCount - 1) * m_fSpacing));
         SetHidenItemState(false);
     }
 

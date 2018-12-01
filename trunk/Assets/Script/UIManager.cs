@@ -94,12 +94,13 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        m_Text_Time.text = string.Format(STR_TIME, System.DateTime.Now.Year
-            , System.DateTime.Now.Month
-            , System.DateTime.Now.Day
-            , System.DateTime.Now.Hour
-            , System.DateTime.Now.Minute
-            , System.DateTime.Now.Second);
+        if (null != m_Text_Time)
+            m_Text_Time.text = string.Format(STR_TIME, System.DateTime.Now.Year
+                , System.DateTime.Now.Month
+                , System.DateTime.Now.Day
+                , System.DateTime.Now.Hour
+                , System.DateTime.Now.Minute
+                , System.DateTime.Now.Second);
 
         if (m_bIsPlayPanelAnim && null != m_DetailInfo)
         {
