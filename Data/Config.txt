@@ -1,2 +1,4 @@
 TS6S@Prefab/Equipment/shiyanlou1F/TS6S
 TestGroup@Prefab/Equipment/shiyanlou1F/testGroup
+ZM@Prefab/Equipment/shiyanlou3F/A03_shebei_01big
+MTC@Prefab/Equipment/shiyanlou3F/A03_shebei_02middle
