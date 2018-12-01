@@ -17,6 +17,8 @@ public class FloatInfoUIDev : MonoBehaviour
 
     [SerializeField]
     private float m_fHight = 20;
+    [SerializeField]
+    private float m_fSpacing = 0;
 
     public string ID { get { return null == m_Data ? string.Empty : m_Data.ID; } }
 
@@ -36,6 +38,10 @@ public class FloatInfoUIDev : MonoBehaviour
     private Vector3 TargetPos;
     private RectTransform m_rect;
     private Vector2 m_vPos;
+
+    private void Awake()
+    {
+    }
 
     private void Start()
     {
@@ -136,7 +142,7 @@ public class FloatInfoUIDev : MonoBehaviour
             dev.IsHide = list[i].ViewType == EContentViewType.E_Hide;
             m_ItemList.Add(dev);
         }
-        SetContentHight(m_nNormalInfoCount * m_fHight);
+        SetContentHight(m_nNormalInfoCount * +((m_nNormalInfoCount - 1) * m_fSpacing));
         SetHidenItemState(false);
     }
 
@@ -158,7 +164,7 @@ public class FloatInfoUIDev : MonoBehaviour
         }
     }
 
-  
+
     public void ShowDetail()
     {
         if (m_bIsShowDetail) return;
@@ -166,7 +172,7 @@ public class FloatInfoUIDev : MonoBehaviour
         m_bIsShowDetail = true;
 
         m_IsAnimRunning = true;
-        m_fTargetHight = m_nTotalInfoCount * m_fHight;
+        m_fTargetHight = m_nTotalInfoCount * m_fHight + ((m_nTotalInfoCount - 1) * m_fSpacing);
         m_AnimTimeIndex = 0;
     }
 
@@ -177,7 +183,7 @@ public class FloatInfoUIDev : MonoBehaviour
         m_bIsShowDetail = false;
 
         m_IsAnimRunning = true;
-        m_fTargetHight = m_nNormalInfoCount * m_fHight;
+        m_fTargetHight = m_nNormalInfoCount * m_fHight + ((m_nNormalInfoCount - 1) * m_fSpacing);
         m_AnimTimeIndex = 0;
     }
 
