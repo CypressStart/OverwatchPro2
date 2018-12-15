@@ -94,20 +94,20 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (!m_bIsRotating)
-        {
-            if (m_fIdleWaitTimeIndex < IDLE_WAIT)
-                m_fIdleWaitTimeIndex += Time.deltaTime;
-            else
-            {
-                m_bIsRotating = true;
-                m_fIdleWaitTimeIndex = 0;
-            }
-        }
-        else
-        {
-            transform.RotateAround(RotPoint, Vector3.up, Time.deltaTime * -1);
-        }
+        //if (!m_bIsRotating)
+        //{
+        //    if (m_fIdleWaitTimeIndex < IDLE_WAIT)
+        //        m_fIdleWaitTimeIndex += Time.deltaTime;
+        //    else
+        //    {
+        //        m_bIsRotating = true;
+        //        m_fIdleWaitTimeIndex = 0;
+        //    }
+        //}
+        //else
+        //{
+        //    transform.RotateAround(RotPoint, Vector3.up, Time.deltaTime * -1);
+        //}
         MovingUpdate();
     }
 
@@ -169,25 +169,31 @@ public class CameraController : MonoBehaviour
                 m_vMoveDirection *= m_MoveSpeed * (Input.GetKey(KeyCode.LeftShift) ? 3 : 1);
                 m_vNewPos = m_vNewPos + transform.rotation * m_vMoveDirection;
             }
+            Debug.DrawRay(transform.position, (transform.rotation * m_vMoveDirection.normalized) * 5, Color.red, 0f);
+            if (!Physics.Raycast(transform.position, transform.rotation * m_vMoveDirection, 1, 1 << 8))
+            {
+                if (m_vNewPos.y > m_MovementUpper)
+                    m_vNewPos.y = m_MovementUpper;
+                if (m_vNewPos.y < m_MovementFloor)
+                    m_vNewPos.y = m_MovementFloor;
+
+                if (m_vNewPos.z > m_MovementF)
+                    m_vNewPos.z = m_MovementF;
+                if (m_vNewPos.z < m_MovementB)
+                    m_vNewPos.z = m_MovementB;
+
+                if (m_vNewPos.x < m_MovementL)
+                    m_vNewPos.x = m_MovementL;
+                if (m_vNewPos.x > m_MovementR)
+                    m_vNewPos.x = m_MovementR;
+                transform.position = m_vNewPos;
+            }
+
             //if (Input.GetKey(KeyCode.E))
             //    m_vNewPos = m_vNewPos + Vector3.up * m_MoveSpeed;
             //if (Input.GetKey(KeyCode.Q))
             //    m_vNewPos = m_vNewPos + Vector3.down * m_MoveSpeed;
-            if (m_vNewPos.y > m_MovementUpper)
-                m_vNewPos.y = m_MovementUpper;
-            if (m_vNewPos.y < m_MovementFloor)
-                m_vNewPos.y = m_MovementFloor;
 
-            if (m_vNewPos.z > m_MovementF)
-                m_vNewPos.z = m_MovementF;
-            if (m_vNewPos.z < m_MovementB)
-                m_vNewPos.z = m_MovementB;
-
-            if (m_vNewPos.x < m_MovementL)
-                m_vNewPos.x = m_MovementL;
-            if (m_vNewPos.x > m_MovementR)
-                m_vNewPos.x = m_MovementR;
-            transform.position = m_vNewPos;
         }
 
         if (Input.GetMouseButtonDown(1)) { Cursor.visible = false; }
