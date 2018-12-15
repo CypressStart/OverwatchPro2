@@ -104,6 +104,8 @@ public class FloatInfoUIDev : MonoBehaviour
     {
         // 是否在视野内
         bool result1 = false;
+        if (null == cam)
+            return true;
         Vector3 posViewport = cam.WorldToViewportPoint(wordPos);
         Rect rect = new Rect(0, 0, 1, 1);
         result1 = rect.Contains(posViewport);
@@ -140,7 +142,7 @@ public class FloatInfoUIDev : MonoBehaviour
             var obj = GameObject.Instantiate(m_ItemInstance.gameObject) as GameObject;
             var dev = obj.GetComponent<FloatInfoItem>();
             obj.transform.SetParent(m_ListTransform, false);
-            dev.SetContent(list[i].Name, list[i].Value);
+            dev.SetContent(list[i].Name, list[i].Value, list[i].TextColor);
             obj.SetActive(true);
             dev.IsHide = list[i].ViewType == EContentViewType.E_Hide;
             m_ItemList.Add(dev);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
@@ -447,13 +448,15 @@ public class DataManager : MonoBehaviour
                 case "Link": data.Link = optionArr[1]; break;
                 default:
                     {
+                        var _info = new InfoContent();
+                        _info.Name = optionArr[0];
+                        if (optionArr.Length > 1)
+                            _info.Value = optionArr[1];
                         if (optionArr.Length > 2)
-                            data.Contentlist.Add(new InfoContent
-                            {
-                                Name = optionArr[0],
-                                Value = optionArr[1],
-                                ViewType = (EContentViewType)int.Parse(optionArr[2])
-                            });
+                            _info.ViewType = (EContentViewType)int.Parse(optionArr[2]);
+                        if (optionArr.Length > 3)
+                            _info.TextColor = TransformHexToRGB(optionArr[3]);
+                        data.Contentlist.Add(_info);
                     }
                     break;
             }
@@ -470,6 +473,23 @@ public class DataManager : MonoBehaviour
         }
         return string.Empty;
     }
+
+    private Color TransformHexToRGB(string strHex)
+    {
+        if (strHex.Length < 6 || strHex.Length > 8 || strHex.Length == 7)
+            return Color.white;
+        byte br = byte.Parse(strHex.Substring(0, 2), NumberStyles.HexNumber);
+        byte bg = byte.Parse(strHex.Substring(2, 2), NumberStyles.HexNumber);
+        byte bb = byte.Parse(strHex.Substring(3, 2), NumberStyles.HexNumber);
+        byte ba = 255;
+        if (strHex.Length == 8)
+            ba = byte.Parse(strHex.Substring(6, 2), NumberStyles.HexNumber);
+        float r = br / 255f;
+        float g = bg / 255f;
+        float b = bb / 255f;
+        float a = ba / 255f;
+        return new Color(r, g, b, a);       //RGBA(0.063, 0.231, 0.953, 1.000)
+    }
 }
 
 public class InformationData
@@ -484,6 +504,7 @@ public class InfoContent
     public string Name;
     public string Value;
     public EContentViewType ViewType;
+    public Color TextColor = Color.white;
 }
 
 public enum EContentViewType

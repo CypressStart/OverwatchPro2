@@ -25,10 +25,11 @@ public class FloatInfoItem : MonoBehaviour
 
     }
 
-    public void SetContent(string name, string value)
+    public void SetContent(string name, string value,Color color)
     {
         if (null == m_NameText) return;
         m_NameText.text = name;
         m_ValueText.text = value;
+        m_ValueText.color = color;
     }
 }
