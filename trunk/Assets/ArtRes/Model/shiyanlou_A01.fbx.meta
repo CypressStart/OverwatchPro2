@@ -19,9 +19,15 @@ ModelImporter:
     2100022: menba_m
     2100024: di_m
     2100026: dibiao_m
+    2100028: banbao_01
+    2100030: banbao_02
+    2100032: dengpao_01_m
+    2100034: dengpao_02_m
     2300000: //RootNode
     3300000: //RootNode
     4300000: shiyanlou_01
+    4300002: shiyanlou_A1
+    4300004: shiyanlou_A01
   externalObjects: {}
   materials:
     importMaterials: 1

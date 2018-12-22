@@ -1,22 +1,15 @@
 fileFormatVersion: 2
-guid: 0d5e1e3618116ce47bbf0d9bc2703c3c
+guid: fdf2ba00ff1cff54687f12ee4f248db3
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: men_m
-    2100002: qiang_m
-    2100004: menba_m
-    2100006: dibiao_m
-    2100008: di_m
-    2100010: banbao_01
-    2100012: banbao_02
-    2100014: dengpao_01_m
-    2100016: dengpao_02_m
+    2100000: pasted__lambert5
+    2100002: pasted__lambert4
     2300000: //RootNode
     3300000: //RootNode
-    4300000: shiyanlou_A03
+    4300000: shiyanlou_A03_qiangmian
   externalObjects: {}
   materials:
     importMaterials: 1

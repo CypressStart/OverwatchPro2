@@ -1,22 +1,40 @@
 fileFormatVersion: 2
-guid: 0d5e1e3618116ce47bbf0d9bc2703c3c
+guid: ffc84659b7539e343a4b6fd9f8b45b7e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: men_m
-    2100002: qiang_m
-    2100004: menba_m
-    2100006: dibiao_m
-    2100008: di_m
-    2100010: banbao_01
-    2100012: banbao_02
-    2100014: dengpao_01_m
-    2100016: dengpao_02_m
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: shiyanlou_A03
+    100000: A02_shebei_01
+    100002: A02_shebei_02
+    100004: A02_shebei_03
+    100006: A02_shebei_04
+    100008: //RootNode
+    400000: A02_shebei_01
+    400002: A02_shebei_02
+    400004: A02_shebei_03
+    400006: A02_shebei_04
+    400008: //RootNode
+    2100000: heise_m
+    2100002: baise_m
+    2100004: huise_m
+    2100006: hongse_m
+    2100008: lvse_m
+    2100010: huangse_m
+    2100012: qinglvse_m
+    2100014: lambert4
+    2100016: lanse_m
+    2100018: yinse_m
+    2300000: A02_shebei_01
+    2300002: A02_shebei_02
+    2300004: A02_shebei_03
+    2300006: A02_shebei_04
+    3300000: A02_shebei_01
+    3300002: A02_shebei_02
+    3300004: A02_shebei_03
+    3300006: A02_shebei_04
+    4300000: A02_shebei_01
+    4300002: A02_shebei_04
+    4300004: A02_shebei_02
+    4300006: A02_shebei_03
   externalObjects: {}
   materials:
     importMaterials: 1

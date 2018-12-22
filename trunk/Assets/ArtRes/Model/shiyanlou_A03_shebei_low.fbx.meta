@@ -4,14 +4,34 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: A03_shebei_03
+    100004: A03_shebei_04
     400000: //RootNode
+    400002: A03_shebei_03
+    400004: A03_shebei_04
     2100000: huise_m
     2100002: baise_m
     2100004: a2
     2100006: jinshubowen_m
+    2100008: hong01_bai02
+    2100010: hong01_hei03
+    2100012: hong01_hui02
+    2100014: hong01_hong01
+    2100016: hong01_lan01
+    2100018: hong01_hei02
+    2100020: lambert2
+    2100022: yinse_m
+    2100024: lanse_m
+    2100026: heise_m
     2300000: //RootNode
+    2300002: A03_shebei_03
+    2300004: A03_shebei_04
     3300000: //RootNode
+    3300002: A03_shebei_03
+    3300004: A03_shebei_04
     4300000: A03_shebei_01
+    4300002: A03_shebei_03
+    4300004: A03_shebei_04
   externalObjects: {}
   materials:
     importMaterials: 1
