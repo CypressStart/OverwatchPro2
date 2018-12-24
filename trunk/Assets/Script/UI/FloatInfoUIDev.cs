@@ -15,6 +15,8 @@ public class FloatInfoUIDev : MonoBehaviour
 
     [SerializeField]
     private RectTransform m_Content;
+    [SerializeField]
+    private Text m_NameLabel;
 
     [SerializeField]
     private float m_fHight = 20;
@@ -136,9 +138,22 @@ public class FloatInfoUIDev : MonoBehaviour
         m_nNormalInfoCount = 0;
         for (int i = 0; i < list.Count; i++)
         {
+            if (list[i].Name == "设备名")
+            {
+                m_NameLabel.text = list[i].Value;
+                continue;
+            }
             if (list[i].ViewType == EContentViewType.E_Show)
                 m_nNormalInfoCount++;
-
+            if (list[i].Name == "状态")
+            {
+                switch (list[i].Value)
+                {
+                    case "空闲": list[i].TextColor = Color.gray; break;
+                    case "正常": list[i].TextColor = Color.green; break;
+                    case "异常": list[i].TextColor = Color.red; break;
+                }
+            }
             var obj = GameObject.Instantiate(m_ItemInstance.gameObject) as GameObject;
             var dev = obj.GetComponent<FloatInfoItem>();
             obj.transform.SetParent(m_ListTransform, false);

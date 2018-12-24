@@ -203,7 +203,8 @@ public class UIManager : MonoBehaviour
 
     internal void SetSceneMessagePanel(string content)
     {
-        m_Text_Message.text = content;
+        if (null != m_Text_Message)
+            m_Text_Message.text = content;
     }
 
     public void ShowImgAddOn()

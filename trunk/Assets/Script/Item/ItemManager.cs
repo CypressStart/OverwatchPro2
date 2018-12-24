@@ -280,7 +280,7 @@ public class ItemManager
             {
                 var infoObj = UnityEngine.Object.Instantiate(m_Res_FloatUI) as GameObject;
                 infoObj.transform.SetParent(GameObject.FindWithTag("FloatUIGroup").transform, false);
-
+                //infoObj.transform.localScale = Vector3.one * .8f;
                 infoUI = infoObj.GetComponent<FloatInfoUIDev>();
                 infoUI.Initialized(m_InformationDataList[i]);
                 infoUI.SetNode(item.gameObject);

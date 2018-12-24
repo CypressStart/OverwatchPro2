@@ -44,7 +44,7 @@ public class DataManager : MonoBehaviour
     private const string DATA_Type_MAN = "NAMELIST";
     private const string DATA_TYPE_PUBLIC_CAMERA = "PUBLIC_CAMERA";
 
-    private const string TEST_Data_Path = "file:///F:/Project/OverwatchPro2/Data/";
+    private const string TEST_Data_Path = "file:///../Data/";
 
     private const string DATA_Type_Scene_Message_Panel = "SCENE_MESSAGE_PANEL";
 
@@ -58,7 +58,7 @@ public class DataManager : MonoBehaviour
     private List<InformationData> m_InformationDataList = new List<InformationData>();
 
     public string DataPath { get { return m_strDataPath; } }
-    private string m_strDataPath = "file:/F:/Data";
+    private string m_strDataPath = TEST_Data_Path;
     private List<string> m_DataStrList = new List<string>();
     private List<StationData> m_StationDataList = new List<StationData>();
     private List<PartData> m_CameraDataList = new List<PartData>();
