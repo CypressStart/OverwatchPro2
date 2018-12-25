@@ -40,19 +40,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Bounds: 1
-    - _Density: 0.3880597
+    - _Density: 0
     - _EdgeAlpha: 0
     - _FrezFalloff: 0.5970148
-    - _FrezPow: 1
-    - _Gloss: 1
+    - _FrezPow: 0
+    - _Gloss: 0
     - _Metalics: 0
     - _RefScale: 1
-    - _Reflection: 0.20895523
-    - _Shininess: 0.85791045
+    - _Reflection: 0
+    - _Shininess: 0.01
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.108179085, g: 0.13173883, b: 0.16037738, a: 0}
     - _ReflectColor: {r: 1, g: 1, b: 1, a: 0.5}
-    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

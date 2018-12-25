@@ -1,76 +1,25 @@
 fileFormatVersion: 2
-guid: 441a0739ae7d40e49871e31ae96e64cc
+guid: 1e3534affcee6494b8ffdd5520e842eb
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: A_shiyanlou
-    100002: B_sankualou
-    100004: C_zairenlou
-    100006: dimianA_01
-    100008: dimianB_01
-    100010: hangtianlou_02
-    100012: lvhuadai_07
-    100014: //RootNode
-    100016: youlou_03
-    100018: zuolou_04
-    100020: lowjianzhu_08
-    400000: A_shiyanlou
-    400002: B_sankualou
-    400004: C_zairenlou
-    400006: dimianA_01
-    400008: dimianB_01
-    400010: hangtianlou_02
-    400012: lvhuadai_07
-    400014: //RootNode
-    400016: youlou_03
-    400018: zuolou_04
-    400020: lowjianzhu_08
-    2100000: dimian_01_m
-    2100002: langan_01_m
-    2100004: heise_01_m
-    2100006: baise_01_m
-    2100008: zimu_01_m
-    2100010: qiangmian_01_m
-    2100012: zimu_02_m
-    2100014: dimian_02_m
-    2100016: boli_01_m
-    2100018: dimianB_01_m
-    2100020: lansefangding_01_m
-    2100022: lvhuadai_07_m
-    2100024: lambert6
-    2100026: lowjianzhu_m
-    2100028: lambert9
-    2100030: guoqi_m
-    2300000: A_shiyanlou
-    2300002: B_sankualou
-    2300004: C_zairenlou
-    2300006: dimianA_01
-    2300008: dimianB_01
-    2300010: hangtianlou_02
-    2300012: lvhuadai_07
-    2300014: youlou_03
-    2300016: zuolou_04
-    2300018: lowjianzhu_08
-    3300000: A_shiyanlou
-    3300002: B_sankualou
-    3300004: C_zairenlou
-    3300006: dimianA_01
-    3300008: dimianB_01
-    3300010: hangtianlou_02
-    3300012: lvhuadai_07
-    3300014: youlou_03
-    3300016: zuolou_04
-    3300018: lowjianzhu_08
-    4300000: dimianA_01
-    4300002: A_shiyanlou
-    4300004: hangtianlou_02
-    4300006: C_zairenlou
-    4300008: lvhuadai_07
-    4300010: dimianB_01
-    4300012: B_sankualou
-    4300014: youlou_03
-    4300016: zuolou_04
-    4300018: lowjianzhu_08
+    100000: //RootNode
+    100002: dikuai_01
+    100004: maluxian_01
+    400000: //RootNode
+    400002: dikuai_01
+    400004: maluxian_01
+    2100000: dikuai_01_m
+    2100002: huangxian_m
+    2100004: baixian_m
+    2300000: dikuai_01
+    2300002: maluxian_01
+    2300004: //RootNode
+    3300000: dikuai_01
+    3300002: maluxian_01
+    3300004: //RootNode
+    4300000: dikuai_01
+    4300002: maluxian_01
   externalObjects: {}
   materials:
     importMaterials: 1
