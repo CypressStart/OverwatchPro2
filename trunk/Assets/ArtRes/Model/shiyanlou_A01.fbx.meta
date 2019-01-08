@@ -30,7 +30,73 @@ ModelImporter:
     4300000: shiyanlou_01
     4300002: shiyanlou_A1
     4300004: shiyanlou_A01
-  externalObjects: {}
+    4300006: shiyanlou_A02
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: banbao_01
+    second: {fileID: 2100000, guid: cd2df1e4d313f424291aedb240d53e81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: banbao_02
+    second: {fileID: 2100000, guid: b33b5465537d7db408020488fd950152, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: chuanghu_m
+    second: {fileID: 2100000, guid: bdc3fcc492cc9e94ea88a247611ee521, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dengpao_01_m
+    second: {fileID: 2100000, guid: fa739e00a1e53e84e95abd4aefdbedc9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dengpao_02_m
+    second: {fileID: 2100000, guid: 7d584acdb7dabb844977275cabd1dae8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: di_m
+    second: {fileID: 2100000, guid: 7438c948b0697d24d84a6d4cfe44f939, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dibiao_m
+    second: {fileID: 2100000, guid: 4b0228f431e65c948b90a7838c02b830, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: men_m
+    second: {fileID: 2100000, guid: 359d4bd4be59d524d8146eb139b07489, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: menba_m
+    second: {fileID: 2100000, guid: c3a92744061d15047a6a09ff02e2741e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pasted__lambert4
+    second: {fileID: 2100000, guid: f24b562d7c254ff45bf8a4af86406d9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pasted__lambert5
+    second: {fileID: 2100000, guid: df5e341bef06655499be5ee7a5f02046, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: qiang_m
+    second: {fileID: 2100000, guid: 5465b930e59c7f74d89a7277c626a429, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: xiaofang_m
+    second: {fileID: 2100000, guid: 121a074d198d2ef47b08fc050f8dde15, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
