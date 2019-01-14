@@ -16,6 +16,21 @@ public class PartItem : ItemBase
     [HideInInspector]
     public bool IsPublicCamera = false;//公共摄像头点击相应不同
 
+    private Material m_DisplayMaterial;
+    private List<TextMesh> m_DisplayText = new List<TextMesh>();
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        var display = transform.Find("Display");
+        if (null != display)
+        {
+            m_DisplayMaterial = display.GetComponent<Renderer>().material;
+            m_DisplayText.AddRange(display.GetComponentsInChildren<TextMesh>());
+        }
+    }
+
     public void SetState(bool isShow)
     {
         if (null != gameObject)
@@ -42,8 +57,45 @@ public class PartItem : ItemBase
         }
     }
 
+    internal void Select()
+    {
+        ItemManager.GetInstance().SwitchFloatUIState(false);
+        ItemManager.GetInstance().ShowDetalInfo(m_ID, true);
+        m_bIsShowOutLine = false;
+        m_bIsSelect = true;
+
+        var cameraPos = transform.position;
+        cameraPos -= CameraController.GetInstance().Forward * 8;
+        if (null == ItemManager.GetInstance().CurSelectPartItem)
+            CameraController.GetInstance().Record();
+        CameraController.GetInstance().MoveTo(cameraPos);
+        CameraController.GetInstance().LockMovtion = true;
+        CameraController.GetInstance().RotPoint = transform.position;
+        UIManager.GetInstance().HideSimpleInfo();
+        //UIManager.GetInstance().ShowDetalInfo(m_Data);
+        if (null != ItemManager.GetInstance().CurSelectPartItem)
+            ItemManager.GetInstance().CurSelectPartItem.CancelSelect();
+        ItemManager.GetInstance().CurSelectPartItem = this;
+
+        SetOutlineList(false);
+
+        //SetHUD(true);
+    }
+
+    internal void CancelSelect()
+    {
+        m_bIsShowOutLine = true;
+        m_bIsSelect = false;
+        //SetHUD(false);
+    }
+
     protected override void OnMouseUp()
     {
+
+        Select();
+
+        return;
+
         //base.OnMouseDown();
         if (string.IsNullOrEmpty(m_URL))
             return;
@@ -61,6 +113,7 @@ public class PartItem : ItemBase
         //Application.OpenURL(m_URL);
         //先直接跳转连接 其他换需求再说
     }
+
 
     private bool m_bIsSelected;
 
@@ -87,6 +140,25 @@ public class PartItem : ItemBase
         if (null != HUD)
             HUD.text = HUDName;
         SetHUD(isShow);
+    }
+
+    /// <summary>
+    /// 设置设备上显示器的内容
+    /// </summary>
+    /// <param name="informationData"></param>
+    internal void SetPanelData(InformationData informationData)
+    {
+        if (null == m_DisplayText || m_DisplayText.Count <= 0)
+            return;
+        if (null != m_DisplayMaterial)
+            m_DisplayMaterial.color = informationData.PanelColor;
+        for (int i = 0; i < informationData.Contentlist.Count; i++)
+        {
+            if (informationData.Contentlist[i].IsShowPanel && i < m_DisplayText.Count)
+            {
+                m_DisplayText[i].text = informationData.Contentlist[i].Name + ":" + informationData.Contentlist[i].Value;
+            }
+        }
     }
 }
 public class _LookAtCamera : MonoBehaviour

@@ -72,6 +72,8 @@ public class ItemBase : MonoBehaviour
 
     protected void SetOutlineList(bool isShow)
     {
+        if (isShow && null != ItemManager.GetInstance().CurSelectPartItem)
+            return;
         if (isShow && !m_bIsShowOutLine)
             return;
         if (null == m_Outlinelist || m_Outlinelist.Count <= 0)

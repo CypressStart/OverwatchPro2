@@ -252,6 +252,15 @@ public class CameraController : MonoBehaviour
             UIManager.GetInstance().HideDetalInfo();
         }
 
+        if (null != ItemManager.GetInstance().CurSelectPartItem)
+        {
+            ItemManager.GetInstance().CurSelectPartItem.CancelSelect();
+            ItemManager.GetInstance().ShowDetalInfo(ItemManager.GetInstance().CurSelectPartItem.ID, false);
+            ItemManager.GetInstance().CurSelectPartItem = null;
+            UIManager.GetInstance().ShowSimpleInfo();
+            //UIManager.GetInstance().HideDetalInfo();
+        }
+
         if (m_bIsTopView)
         {
             m_bIsTopView = false;
@@ -284,6 +293,15 @@ public class CameraController : MonoBehaviour
             ItemManager.GetInstance().CurSelectStation = null;
             UIManager.GetInstance().ShowSimpleInfo();
             UIManager.GetInstance().HideDetalInfo();
+        }
+
+        if (null != ItemManager.GetInstance().CurSelectPartItem)
+        {
+            ItemManager.GetInstance().CurSelectPartItem.CancelSelect();
+            ItemManager.GetInstance().ShowDetalInfo(ItemManager.GetInstance().CurSelectPartItem.ID, false);
+            ItemManager.GetInstance().CurSelectPartItem = null;
+            UIManager.GetInstance().ShowSimpleInfo();
+            //UIManager.GetInstance().HideDetalInfo();
         }
     }
 }

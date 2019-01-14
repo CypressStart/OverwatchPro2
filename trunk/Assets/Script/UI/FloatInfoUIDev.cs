@@ -12,7 +12,8 @@ public class FloatInfoUIDev : MonoBehaviour
 
     [SerializeField]
     private FloatInfoItem m_ItemInstance;
-
+    [SerializeField]
+    private GameObject m_GoToBtn;
     [SerializeField]
     private RectTransform m_Content;
     [SerializeField]
@@ -41,11 +42,13 @@ public class FloatInfoUIDev : MonoBehaviour
     private Vector3 TargetPos;
     private RectTransform m_rect;
     private Vector2 m_vPos;
+    private TweenPlayer m_TweenPlayer;
 
     private void Awake()
     {
         m_scale = transform.localScale;
         m_fSpacing = m_ListTransform.GetComponent<VerticalLayoutGroup>().spacing;
+        m_TweenPlayer = transform.GetComponent<TweenPlayer>();
     }
 
     private void Start()
@@ -56,14 +59,6 @@ public class FloatInfoUIDev : MonoBehaviour
     private void Update()
     {
         UpdatePos();
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ShowDetail();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            HideDetail();
-        }
 
         if (m_IsAnimRunning)
         {
@@ -80,6 +75,8 @@ public class FloatInfoUIDev : MonoBehaviour
 
     private void UpdatePos()
     {
+        if (m_bIsDetal)
+            return;
         if (null != m_NodeObj)//
         {
             if (null == m_MainCamera)
@@ -214,6 +211,13 @@ public class FloatInfoUIDev : MonoBehaviour
         m_AnimTimeIndex = 0;
     }
 
+    public void BtnGoToLink()
+    {
+        var link = DataManager.GetInstance().GetLink(ID);
+        if (!string.IsNullOrEmpty(link))
+            Application.ExternalCall("OnSelect", link);
+    }
+
     /// <summary>
     /// 设置追踪节点
     /// </summary>
@@ -231,5 +235,26 @@ public class FloatInfoUIDev : MonoBehaviour
         }
         m_ItemList.Clear();
         Initialized(informationData);
+    }
+
+    private bool m_bIsDetal = false;
+
+    public void SetDetal(bool isDetal)
+    {
+        m_bIsDetal = isDetal;
+        if (null != m_GoToBtn)
+            m_GoToBtn.SetActive(isDetal);
+
+        if (isDetal)
+        {
+            transform.localPosition = new Vector3(10, -35, 0);
+            transform.localScale = Vector3.one;
+            m_TweenPlayer.Amount = Vector3.one;
+        }
+        else
+        {
+            transform.localScale = Vector3.one * .5f;
+            m_TweenPlayer.Amount = Vector3.one * .5f;
+        }
     }
 }

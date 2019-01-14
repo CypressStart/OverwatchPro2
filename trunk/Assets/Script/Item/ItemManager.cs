@@ -38,6 +38,8 @@ public class ItemManager
 
     public StationItem CurSelectStation { get; internal set; }
 
+    public PartItem CurSelectPartItem { get; internal set; }
+
     private UnityEngine.Object m_Res_FloatUI;
 
     public void AddStation(StationItem item)
@@ -283,15 +285,20 @@ public class ItemManager
                 //infoObj.transform.localScale = Vector3.one * .8f;
                 infoUI = infoObj.GetComponent<FloatInfoUIDev>();
                 infoUI.Initialized(m_InformationDataList[i]);
+                item.SetPanelData(m_InformationDataList[i]);
                 infoUI.SetNode(item.gameObject);
                 item.OnMouseEnterCallBack = infoUI.ShowDetail;
                 item.OnMouseEnterCallBack += infoUI.MoveToUp;
                 item.OnMouseExitCallBack = infoUI.HideDetail;
+                if (!string.IsNullOrEmpty(m_CurDetalID) && item.ID == m_CurDetalID)
+                    infoUI.SetDetal(true);
+
                 m_FloatInfoUIDevList.Add(infoUI);
             }
             else
             {
                 infoUI.Modification(m_InformationDataList[i]);
+                item.SetPanelData(m_InformationDataList[i]);
             }
         }
     }
@@ -318,4 +325,39 @@ public class ItemManager
         }
     }
 
+    internal void SwitchFloatUIState(bool isShow)
+    {
+        if (m_FloatInfoUIDevList.Count <= 0)
+            return;
+        m_bIsShowFloatUI = isShow;
+        for (int i = 0; i < m_FloatInfoUIDevList.Count; i++)
+        {
+            m_FloatInfoUIDevList[i].gameObject.SetActive(isShow);
+        }
+    }
+    private string m_CurDetalID;
+
+    internal void ShowDetalInfo(string m_ID, bool isShow)
+    {
+        if (isShow && !string.IsNullOrEmpty(m_CurDetalID))
+        {
+            for (int i = 0; i < m_FloatInfoUIDevList.Count; i++)
+            {
+                if (m_FloatInfoUIDevList[i].ID == m_CurDetalID)
+                {
+                    m_FloatInfoUIDevList[i].SetDetal(false);
+                    m_FloatInfoUIDevList[i].gameObject.SetActive(false);
+                }
+            }
+        }
+        for (int i = 0; i < m_FloatInfoUIDevList.Count; i++)
+        {
+            if (m_FloatInfoUIDevList[i].ID == m_ID)
+            {
+                m_FloatInfoUIDevList[i].SetDetal(isShow);
+                m_FloatInfoUIDevList[i].gameObject.SetActive(isShow);
+            }
+        }
+        m_CurDetalID = isShow ? m_ID : string.Empty;
+    }
 }

@@ -13,6 +13,11 @@ public class DataManager : MonoBehaviour
 {
     private static DataManager _instance;
 
+    internal void SetThermographTool(ThermographTool thermographTool)
+    {
+        m_ThermographTool = thermographTool;
+    }
+
     public static DataManager GetInstance()
     {
         return _instance;
@@ -27,7 +32,6 @@ public class DataManager : MonoBehaviour
         }
         DontDestroyOnLoad(this);
         _instance = this;
-        Debug.LogError(Application.dataPath);
     }
 
     private const string DATA_PATH_KEY = "DATA_PATH";
@@ -56,6 +60,7 @@ public class DataManager : MonoBehaviour
 
     private List<PartData> m_EquipmentDataList = new List<PartData>();
     private List<InformationData> m_InformationDataList = new List<InformationData>();
+    private InformationData m_PublicInformationData = new InformationData();
 
     public string DataPath { get { return m_strDataPath; } }
     private string m_strDataPath = TEST_Data_Path;
@@ -67,7 +72,7 @@ public class DataManager : MonoBehaviour
     private Dictionary<string, List<string>> m_ManData = new Dictionary<string, List<string>>();
 
     private List<ModelData> m_ModelConfigList = null;
-
+    private ThermographTool m_ThermographTool;
     private bool m_bIsInit = false;
     private float m_fTimeIndex;
 
@@ -247,6 +252,8 @@ public class DataManager : MonoBehaviour
             yield return 0;
         //解析数据
         m_InformationDataList.Clear();
+        m_PublicInformationData = new InformationData();
+        m_PublicInformationData.Contentlist = new List<InfoContent>();
         for (int i = 0; i < sr.Length; i++)
         {
             AdaptiveInfomationData(sr[i].Split(';'));
@@ -255,6 +262,8 @@ public class DataManager : MonoBehaviour
         //TODO:根据m_EquipmentDataList 找ID添加UI信息
         if (m_InformationDataList.Count > 0)
             ItemManager.GetInstance().LoadInformation(m_InformationDataList);
+        if (null != m_ThermographTool)
+            m_ThermographTool.SetValue(m_PublicInformationData);
     }
 
     /// <summary>
@@ -442,26 +451,50 @@ public class DataManager : MonoBehaviour
             var optionArr = strArr[i].Split('@');//长度至少为2
             if (null == optionArr || optionArr.Length < 2)
                 continue;
-            switch (optionArr[0])
+
+            if (optionArr[0] == "#")//公共信息识别
             {
-                case "ID": data.ID = optionArr[1]; break;
-                case "Link": data.Link = optionArr[1]; break;
-                default:
-                    {
-                        var _info = new InfoContent();
-                        _info.Name = optionArr[0];
-                        if (optionArr.Length > 1)
-                            _info.Value = optionArr[1];
-                        if (optionArr.Length > 2)
-                            _info.ViewType = (EContentViewType)int.Parse(optionArr[2]);
-                        if (optionArr.Length > 3)
-                            _info.TextColor = TransformHexToRGB(optionArr[3]);
-                        data.Contentlist.Add(_info);
-                    }
-                    break;
+                var _info = new InfoContent();
+                _info.Name = optionArr[1];
+                _info.Value = optionArr[2];
+                m_PublicInformationData.Contentlist.Add(_info);
             }
+            else
+                switch (optionArr[0])//单位信息
+                {
+                    case "ID": data.ID = optionArr[1]; break;
+                    case "Link": data.Link = optionArr[1]; break;
+                    case "PanelColor": data.PanelColor = TransformHexToRGB(optionArr[1]); break;
+                    default:
+                        {
+                            if (string.IsNullOrEmpty(optionArr[0]))
+                                continue;
+                            var _info = new InfoContent();
+                            _info.Name = optionArr[0];
+                            if (optionArr.Length > 1)
+                                _info.Value = optionArr[1];
+                            if (optionArr.Length > 2)
+                                _info.ViewType = (EContentViewType)int.Parse(optionArr[2]);
+                            if (optionArr.Length > 3)
+                                _info.IsShowPanel = optionArr[3] == "1";
+                            if (optionArr.Length > 4)
+                                _info.TextColor = TransformHexToRGB(optionArr[4]);
+                            data.Contentlist.Add(_info);
+                        }
+                        break;
+                }
         }
         m_InformationDataList.Add(data);
+    }
+
+    public string GetLink(string id)
+    {
+        foreach (var item in m_InformationDataList)
+        {
+            if (item.ID == id)
+                return item.Link;
+        }
+        return string.Empty;
     }
 
     public string GetPath(string name)
@@ -496,7 +529,11 @@ public class InformationData
 {
     public string ID;
     public string Link;
+    public Color PanelColor;
     public List<InfoContent> Contentlist;
+
+    public string _Name;
+    public string _Value;
 }
 
 public class InfoContent
@@ -505,6 +542,7 @@ public class InfoContent
     public string Value;
     public EContentViewType ViewType;
     public Color TextColor = Color.white;
+    public bool IsShowPanel;//是否显示在设备显示器上
 }
 
 public enum EContentViewType

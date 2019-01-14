@@ -86,6 +86,10 @@ public class UIManager : MonoBehaviour
             if (null != ItemManager.GetInstance().CurSelectStation)
                 ItemManager.GetInstance().CurSelectStation.CancelSelect();
             ItemManager.GetInstance().CurSelectStation = null;
+            if (null != ItemManager.GetInstance().CurSelectPartItem)
+                ItemManager.GetInstance().CurSelectPartItem.CancelSelect();
+            ItemManager.GetInstance().ShowDetalInfo(ItemManager.GetInstance().CurSelectPartItem.ID, false);
+            ItemManager.GetInstance().CurSelectPartItem = null;
             CameraController.GetInstance().GetBack();
             UIManager.GetInstance().ShowSimpleInfo();
             UIManager.GetInstance().HideDetalInfo();
@@ -158,6 +162,7 @@ public class UIManager : MonoBehaviour
             m_SimpleInfoUIItemList[i].Show();
         }
         m_TopViewBtn.gameObject.SetActive(true);
+        ItemManager.GetInstance().SwitchFloatUIState(true);
     }
 
     public void HideSimpleInfo()
