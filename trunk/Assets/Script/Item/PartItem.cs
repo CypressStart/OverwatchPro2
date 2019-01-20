@@ -71,7 +71,7 @@ public class PartItem : ItemBase
         cameraPos -= CameraController.GetInstance().Forward * 8;
         if (null == ItemManager.GetInstance().CurSelectPartItem)
             CameraController.GetInstance().Record();
-        //CameraController.GetInstance().LockMovtion = true;
+        CameraController.GetInstance().LockMovtion = true;
         if (null != m_ViewPoint)
             CameraController.GetInstance().MoveTo(m_ViewPoint.transform.position);
         else
