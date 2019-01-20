@@ -15,3 +15,4 @@ BMZ2@Prefab/Equipment/shiyanlou3F/A03_shebei_02
 A0304@Prefab/Equipment/shiyanlou3F/A03_shebei_04
 BMZ3@Prefab/Equipment/shiyanlou3F/A03_shebei_05
 BMZ1@Prefab/Equipment/shiyanlou3F/A03_shebei_06
+A0401@Prefab/Equipment/zairenlou/A04_shebei_01
