@@ -18,6 +18,8 @@ public class FloatInfoUIDev : MonoBehaviour
     private RectTransform m_Content;
     [SerializeField]
     private Text m_NameLabel;
+    [SerializeField]
+    private Image m_ImageBG;
 
     [SerializeField]
     private float m_fHight = 20;
@@ -133,6 +135,8 @@ public class FloatInfoUIDev : MonoBehaviour
         var list = info.Contentlist;
         m_nTotalInfoCount = list.Count;
         m_nNormalInfoCount = 0;
+        if (null != m_ImageBG)
+            m_ImageBG.color = info.PanelColor;
         for (int i = 0; i < list.Count; i++)
         {
             if (list[i].Name == "设备名")
