@@ -154,10 +154,17 @@ public class PartItem : ItemBase
         if (null != m_DisplayMaterial)
             m_DisplayMaterial.color = informationData.PanelColor;
         var displayindex = 0;
+        foreach (var item in m_DisplayText)
+        {
+            if (null != item)
+                item.gameObject.SetActive(false);
+        }
+
         for (int i = 0; i < informationData.Contentlist.Count; i++)
         {
             if (informationData.Contentlist[i].IsShowPanel && displayindex < m_DisplayText.Count)
             {
+                m_DisplayText[displayindex].gameObject.SetActive(true);
                 m_DisplayText[displayindex].text = informationData.Contentlist[i].Name + ":" + informationData.Contentlist[i].Value;
                 displayindex++;
             }
