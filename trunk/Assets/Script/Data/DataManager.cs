@@ -536,7 +536,7 @@ public class InformationData
 {
     public string ID;
     public string Link;
-    public Color PanelColor;
+    public Color PanelColor = Color.white;
     public List<InfoContent> Contentlist;
 
     public string _Name;
