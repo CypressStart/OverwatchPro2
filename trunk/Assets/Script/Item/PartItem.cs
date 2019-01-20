@@ -61,6 +61,7 @@ public class PartItem : ItemBase
     {
         ItemManager.GetInstance().SwitchFloatUIState(false);
         ItemManager.GetInstance().ShowDetalInfo(m_ID, true);
+        ItemManager.GetInstance().ShowDetalInfo(m_ID, true);
         m_bIsShowOutLine = false;
         m_bIsSelect = true;
 
@@ -152,11 +153,13 @@ public class PartItem : ItemBase
             return;
         if (null != m_DisplayMaterial)
             m_DisplayMaterial.color = informationData.PanelColor;
+        var displayindex = 0;
         for (int i = 0; i < informationData.Contentlist.Count; i++)
         {
-            if (informationData.Contentlist[i].IsShowPanel && i < m_DisplayText.Count)
+            if (informationData.Contentlist[i].IsShowPanel && displayindex < m_DisplayText.Count)
             {
-                m_DisplayText[i].text = informationData.Contentlist[i].Name + ":" + informationData.Contentlist[i].Value;
+                m_DisplayText[displayindex].text = informationData.Contentlist[i].Name + ":" + informationData.Contentlist[i].Value;
+                displayindex++;
             }
         }
     }
