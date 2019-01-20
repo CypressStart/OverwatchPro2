@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 /// <summary>
@@ -245,7 +246,7 @@ public class DataManager : MonoBehaviour
             //如果无法从网络读取  从本地读测试数据
             Debug.LogError("无法从" + path + " 获取数据,将加载测试数据." + "WWWerror:" + www.error);
         }
-        string[] sr = strAll.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+        string[] sr = strAll.Split(new string[] { "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries);
 
         m_fTimeIndex = 0;
         if (null == sr || sr.Length <= 0)
@@ -256,7 +257,9 @@ public class DataManager : MonoBehaviour
         m_PublicInformationData.Contentlist = new List<InfoContent>();
         for (int i = 0; i < sr.Length; i++)
         {
-            AdaptiveInfomationData(sr[i].Split(';'));
+            var _str = Regex.Replace(sr[i], @"[\0]", "");
+            AdaptiveInfomationData(_str.Split(new char[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries));
+            //AdaptiveInfomationData(_str.Split(';'));
         }
         //显示UI
         //TODO:根据m_EquipmentDataList 找ID添加UI信息
@@ -444,11 +447,13 @@ public class DataManager : MonoBehaviour
             return;
         var data = new InformationData();
         data.Contentlist = new List<InfoContent>();
+        bool m_isPublic = false;
         for (int i = 0; i < strArr.Length; i++)
         {
             if (string.IsNullOrEmpty(strArr[i]))
                 continue;
-            var optionArr = strArr[i].Split('@');//长度至少为2
+            var optionArr = strArr[i].Split(new char[] { '@' }, System.StringSplitOptions.RemoveEmptyEntries);//长度至少为2
+            //var optionArr = strArr[i].Split('@');//长度至少为2
             if (null == optionArr || optionArr.Length < 2)
                 continue;
 
@@ -458,6 +463,7 @@ public class DataManager : MonoBehaviour
                 _info.Name = optionArr[1];
                 _info.Value = optionArr[2];
                 m_PublicInformationData.Contentlist.Add(_info);
+                m_isPublic = true;
             }
             else
                 switch (optionArr[0])//单位信息
@@ -484,7 +490,8 @@ public class DataManager : MonoBehaviour
                         break;
                 }
         }
-        m_InformationDataList.Add(data);
+        if (!m_isPublic)
+            m_InformationDataList.Add(data);
     }
 
     public string GetLink(string id)

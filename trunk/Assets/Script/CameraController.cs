@@ -145,56 +145,55 @@ public class CameraController : MonoBehaviour
 
     private void MovingUpdate()
     {
-        if (!LockMovtion || m_bIsTopView)
+        m_vMoveDirection = Vector3.zero;
+        m_vNewPos = transform.position;
+        if (Input.GetKey(KeyCode.W))
+            m_vMoveDirection.z = 1;
+        if (Input.GetKey(KeyCode.A))
+            m_vMoveDirection.x = -1;
+        if (Input.GetKey(KeyCode.S))
+            m_vMoveDirection.z = -1;
+        if (Input.GetKey(KeyCode.D))
+            m_vMoveDirection.x = 1;
+        if (Input.GetKey(KeyCode.E))
+            m_vMoveDirection.y = 1;
+        if (Input.GetKey(KeyCode.Q))
+            m_vMoveDirection.y = -1;
+
+        if (m_vMoveDirection != Vector3.zero)
         {
-            m_vMoveDirection = Vector3.zero;
-            m_vNewPos = transform.position;
-            if (Input.GetKey(KeyCode.W))
-                m_vMoveDirection.z = 1;
-            if (Input.GetKey(KeyCode.A))
-                m_vMoveDirection.x = -1;
-            if (Input.GetKey(KeyCode.S))
-                m_vMoveDirection.z = -1;
-            if (Input.GetKey(KeyCode.D))
-                m_vMoveDirection.x = 1;
-            if (Input.GetKey(KeyCode.E))
-                m_vMoveDirection.y = 1;
-            if (Input.GetKey(KeyCode.Q))
-                m_vMoveDirection.y = -1;
-
-            if (m_vMoveDirection != Vector3.zero)
-            {
-                RefrshIdle();
-                m_vMoveDirection.Normalize();
-                m_vMoveDirection *= m_MoveSpeed * (Input.GetKey(KeyCode.LeftShift) ? 3 : 1);
-                m_vNewPos = m_vNewPos + transform.rotation * m_vMoveDirection;
-            }
-            Debug.DrawRay(transform.position, (transform.rotation * m_vMoveDirection.normalized) * 5, Color.red, 0f);
-            if (!Physics.Raycast(transform.position, transform.rotation * m_vMoveDirection, 1, 1 << 8))
-            {
-                if (m_vNewPos.y > m_MovementUpper)
-                    m_vNewPos.y = m_MovementUpper;
-                if (m_vNewPos.y < m_MovementFloor)
-                    m_vNewPos.y = m_MovementFloor;
-
-                if (m_vNewPos.z > m_MovementF)
-                    m_vNewPos.z = m_MovementF;
-                if (m_vNewPos.z < m_MovementB)
-                    m_vNewPos.z = m_MovementB;
-
-                if (m_vNewPos.x < m_MovementL)
-                    m_vNewPos.x = m_MovementL;
-                if (m_vNewPos.x > m_MovementR)
-                    m_vNewPos.x = m_MovementR;
-                transform.position = m_vNewPos;
-            }
-
-            //if (Input.GetKey(KeyCode.E))
-            //    m_vNewPos = m_vNewPos + Vector3.up * m_MoveSpeed;
-            //if (Input.GetKey(KeyCode.Q))
-            //    m_vNewPos = m_vNewPos + Vector3.down * m_MoveSpeed;
-
+            if (LockMovtion || m_bIsTopView)
+                UnlockCamera();
+            RefrshIdle();
+            m_vMoveDirection.Normalize();
+            m_vMoveDirection *= m_MoveSpeed * (Input.GetKey(KeyCode.LeftShift) ? 3 : 1);
+            m_vNewPos = m_vNewPos + transform.rotation * m_vMoveDirection;
         }
+        Debug.DrawRay(transform.position, (transform.rotation * m_vMoveDirection.normalized) * 5, Color.red, 0f);
+        if (!Physics.Raycast(transform.position, transform.rotation * m_vMoveDirection, 1, 1 << 8))
+        {
+            if (m_vNewPos.y > m_MovementUpper)
+                m_vNewPos.y = m_MovementUpper;
+            if (m_vNewPos.y < m_MovementFloor)
+                m_vNewPos.y = m_MovementFloor;
+
+            if (m_vNewPos.z > m_MovementF)
+                m_vNewPos.z = m_MovementF;
+            if (m_vNewPos.z < m_MovementB)
+                m_vNewPos.z = m_MovementB;
+
+            if (m_vNewPos.x < m_MovementL)
+                m_vNewPos.x = m_MovementL;
+            if (m_vNewPos.x > m_MovementR)
+                m_vNewPos.x = m_MovementR;
+            transform.position = m_vNewPos;
+        }
+
+        //if (Input.GetKey(KeyCode.E))
+        //    m_vNewPos = m_vNewPos + Vector3.up * m_MoveSpeed;
+        //if (Input.GetKey(KeyCode.Q))
+        //    m_vNewPos = m_vNewPos + Vector3.down * m_MoveSpeed;
+
 
         if (Input.GetMouseButtonDown(1)) { Cursor.visible = false; }
         if (Input.GetMouseButtonUp(1)) { Cursor.visible = true; }
@@ -276,6 +275,29 @@ public class CameraController : MonoBehaviour
         }
         if (null != label)
             label.text = m_bIsTopView ? "俯视" : "顶视";
+    }
+
+    public void UnlockCamera()
+    {
+        LockMovtion = false;
+        m_bIsTopView = false;
+
+        if (null != ItemManager.GetInstance().CurSelectStation)
+        {
+            ItemManager.GetInstance().CurSelectStation.CancelSelect();
+            ItemManager.GetInstance().CurSelectStation = null;
+            UIManager.GetInstance().ShowSimpleInfo();
+            UIManager.GetInstance().HideDetalInfo();
+        }
+
+        if (null != ItemManager.GetInstance().CurSelectPartItem)
+        {
+            ItemManager.GetInstance().CurSelectPartItem.CancelSelect();
+            ItemManager.GetInstance().ShowDetalInfo(ItemManager.GetInstance().CurSelectPartItem.ID, false);
+            ItemManager.GetInstance().CurSelectPartItem = null;
+            UIManager.GetInstance().ShowSimpleInfo();
+            UIManager.GetInstance().HideDetalInfo();
+        }
     }
 
     public void Restoration()

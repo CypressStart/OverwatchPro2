@@ -86,7 +86,7 @@ public class FloatInfoUIDev : MonoBehaviour
                 m_Canvas = m_UiRoot.GetComponent<Canvas>();
             }
         }
-        if (!IsAPointInACamera(m_MainCamera, TargetPos))
+        if (!IsAPointInACamera(m_MainCamera, m_NodeObj.transform.position))
         {
             if (Vector3.zero != transform.localScale)
                 transform.localScale = Vector3.zero;

@@ -54,6 +54,7 @@ public class ItemManager
 
     public void Release()
     {
+        m_FloatInfoUIDevList.Clear();
         m_lStationItemList.Clear();
         m_lCameraItemList.Clear();
         m_lCabinetItemList.Clear();
