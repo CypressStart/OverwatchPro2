@@ -18,6 +18,7 @@ public class PartItem : ItemBase
 
     private Material m_DisplayMaterial;
     private List<TextMesh> m_DisplayText = new List<TextMesh>();
+    private Transform m_ViewPoint;
 
     protected override void Awake()
     {
@@ -29,6 +30,7 @@ public class PartItem : ItemBase
             m_DisplayMaterial = display.GetComponent<Renderer>().material;
             m_DisplayText.AddRange(display.GetComponentsInChildren<TextMesh>());
         }
+        m_ViewPoint = transform.Find("ViewPoint");
     }
 
     public void SetState(bool isShow)
@@ -69,9 +71,17 @@ public class PartItem : ItemBase
         cameraPos -= CameraController.GetInstance().Forward * 8;
         if (null == ItemManager.GetInstance().CurSelectPartItem)
             CameraController.GetInstance().Record();
-        CameraController.GetInstance().MoveTo(cameraPos);
-        CameraController.GetInstance().LockMovtion = true;
-        CameraController.GetInstance().RotPoint = transform.position;
+        //CameraController.GetInstance().LockMovtion = true;
+        if (null != m_ViewPoint)
+            CameraController.GetInstance().MoveTo(m_ViewPoint.transform.position);
+        else
+            CameraController.GetInstance().MoveTo(cameraPos);
+
+        if (null != m_ViewPoint)
+            CameraController.GetInstance().RotateTo(m_ViewPoint.transform.rotation);
+        else
+            CameraController.GetInstance().RotPoint = transform.position;
+
         UIManager.GetInstance().HideSimpleInfo();
         //UIManager.GetInstance().ShowDetalInfo(m_Data);
         if (null != ItemManager.GetInstance().CurSelectPartItem)
