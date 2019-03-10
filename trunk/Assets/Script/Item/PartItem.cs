@@ -64,7 +64,7 @@ public class PartItem : ItemBase
         ItemManager.GetInstance().SwitchFloatUIState(false);
         ItemManager.GetInstance().ShowDetalInfo(m_ID, true);
         ItemManager.GetInstance().ShowDetalInfo(m_ID, true);
-        m_bIsShowOutLine = false;
+        m_bIsShowOutLine = true;
         m_bIsSelect = true;
 
         var cameraPos = transform.position;
@@ -88,7 +88,7 @@ public class PartItem : ItemBase
             ItemManager.GetInstance().CurSelectPartItem.CancelSelect();
         ItemManager.GetInstance().CurSelectPartItem = this;
 
-        SetOutlineList(false);
+        SetOutlineList(true);
 
         //SetHUD(true);
     }
@@ -98,6 +98,7 @@ public class PartItem : ItemBase
         m_bIsShowOutLine = true;
         m_bIsSelect = false;
         //SetHUD(false);
+        SetOutlineList(m_bIsMouseEnter);
     }
 
     protected override void OnMouseUp()

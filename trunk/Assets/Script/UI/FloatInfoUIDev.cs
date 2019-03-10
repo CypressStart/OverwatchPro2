@@ -220,6 +220,8 @@ public class FloatInfoUIDev : MonoBehaviour
         var link = DataManager.GetInstance().GetLink(ID);
         if (!string.IsNullOrEmpty(link))
             Application.ExternalCall("OnSelect", link);
+        if (!string.IsNullOrEmpty(link))
+            Application.OpenURL(link);
     }
 
     /// <summary>

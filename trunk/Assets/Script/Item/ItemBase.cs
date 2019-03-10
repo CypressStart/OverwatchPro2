@@ -51,15 +51,23 @@ public class ItemBase : MonoBehaviour
             SetOutlineList(true);
         if (null != OnMouseEnterCallBack)
             OnMouseEnterCallBack.Invoke();
+        m_bIsMouseEnter = true;
     }
+
+    protected bool m_bIsMouseEnter = false;
 
     protected virtual void OnMouseExit()
     {
-        if (null != m_aOutline)
-            m_aOutline.enabled = false;
-        SetOutlineList(false);
+
+        if (!m_bIsSelect)
+        {
+            if (null != m_aOutline)
+                m_aOutline.enabled = false;
+            SetOutlineList(false);
+        }
         if (null != OnMouseExitCallBack)
             OnMouseExitCallBack.Invoke();
+        m_bIsMouseEnter = false;
     }
 
     protected virtual void OnMouseUp()
