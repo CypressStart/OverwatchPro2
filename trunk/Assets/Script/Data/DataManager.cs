@@ -38,6 +38,8 @@ public class DataManager : MonoBehaviour
     private const string DATA_PATH_KEY = "DATA_PATH";
     private const string DATA_FILENAME = "DATA.txt";
 
+    private const string DATA_FILENAME_SCENEDATA = "SceneData.jsp";
+
     private const string DATA_FILENAME_STATION = "StationData.txt";
     private const string DATA_FILENAME_EQUIP = "EquipmentData.txt";
     private const string DATA_FILENAME_INFO = "InformationList.txt";
@@ -79,14 +81,32 @@ public class DataManager : MonoBehaviour
 
     private string m_strCurSceneDataPath;//每个场景切换不同给的地址
 
-    public void Init(string m_SceneDataPath)
+    public void Init(int SceneID)
     {
         //取预存路径
         if (PlayerPrefs.HasKey(DATA_PATH_KEY))
             m_strDataPath = PlayerPrefs.GetString(DATA_PATH_KEY);
-        m_strCurSceneDataPath = m_SceneDataPath;
+        //m_strCurSceneDataPath = m_SceneDataPath;
+        switch (SceneID)
+        {
+            case 0: m_strCurSceneDataPath = Path_LoginSceneData; break;
+            case 1: m_strCurSceneDataPath = Path_Scene1Data; break;
+            case 2: m_strCurSceneDataPath = Path_Scene2Data; break;
+            case 3: m_strCurSceneDataPath = Path_Scene3Data; break;
+            case 4: m_strCurSceneDataPath = Path_Scene4Data; break;
+            case 5: m_strCurSceneDataPath = Path_Scene5Data; break;
+            case 6: m_strCurSceneDataPath = Path_Scene6Data; break;
+        }
         m_bIsInit = true;
     }
+    //public void Init(string m_SceneDataPath)
+    //{
+    //    //取预存路径
+    //    if (PlayerPrefs.HasKey(DATA_PATH_KEY))
+    //        m_strDataPath = PlayerPrefs.GetString(DATA_PATH_KEY);
+    //    m_strCurSceneDataPath = m_SceneDataPath;
+    //    m_bIsInit = true;
+    //}
 
     public void Tick(float deltaTime)
     {
@@ -115,12 +135,14 @@ public class DataManager : MonoBehaviour
             return;
         }
         Debug.Log("加载数据");
-        if (null == m_ModelConfigList)
-            StartCoroutine(LoadConfig());
+        StartCoroutine(LoadBaseData());
+        //if (null == m_ModelConfigList)
+        //    StartCoroutine(LoadConfig());
 
-        StartCoroutine(LoadStation());
-        StartCoroutine(LoadEquipmentData());
-        StartCoroutine(LoadInformationList());
+        //StartCoroutine(LoadSceneData());
+        //StartCoroutine(LoadStation());
+        //StartCoroutine(LoadEquipmentData());
+        //StartCoroutine(LoadInformationList());
     }
 
     /// <summary>
@@ -196,6 +218,116 @@ public class DataManager : MonoBehaviour
         ItemManager.GetInstance().RefreshStation(m_StationDataList);
     }
 
+    private string Path_Config;
+    private string Path_LoginSceneData;
+    private string Path_Scene1Data;
+    private string Path_Scene2Data;
+    private string Path_Scene3Data;
+    private string Path_Scene4Data;
+    private string Path_Scene5Data;
+    private string Path_Scene6Data;
+
+
+    private IEnumerator LoadBaseData()
+    {
+        var www = new WWW(m_strDataPath);
+        yield return www;
+        string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
+        if (string.IsNullOrEmpty(strAll))
+        {
+        }
+        ///六个路径 第一个是配置 后边依次是五个场景的路径
+        string[] sr = strAll.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+        if (sr.Length >= 8)
+        {
+            Path_Config = sr[0];
+            Path_LoginSceneData = sr[1];
+            Path_Scene1Data = sr[2];
+            Path_Scene2Data = sr[3];
+            Path_Scene3Data = sr[4];
+            Path_Scene4Data = sr[5];
+            Path_Scene5Data = sr[6];
+            Path_Scene6Data = sr[7];
+
+            if (null == m_ModelConfigList)
+                StartCoroutine(LoadConfig());
+            StartCoroutine(LoadSceneData());
+        }
+        else
+            Debug.LogError("数据文件路径数量不足");
+    }
+
+    private IEnumerator LoadSceneData()
+    {
+        var www = new WWW(m_strCurSceneDataPath);
+        yield return www;
+        string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
+        if (string.IsNullOrEmpty(strAll))
+        {
+        }
+        string[] sr = strAll.Split(new string[] { "//////////" }, System.StringSplitOptions.None);
+
+        if (null != sr && sr.Length > 1)
+        {
+            NewLoadEquipmentData(sr[0]);
+            NewLoadInformationList(sr[1]);
+        }
+    }
+
+    /// <summary>
+    /// 加载物体配置
+    /// </summary>
+    /// <returns></returns>
+    private void NewLoadEquipmentData(string content)
+    {
+        string[] sr = content.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+
+        m_fTimeIndex = 0;
+        if (null == sr || sr.Length <= 0)
+            return;
+        //解析数据
+        m_EquipmentDataList.Clear();
+        for (int i = 0; i < sr.Length; i++)
+        {
+            if (!string.IsNullOrEmpty(sr[i]))
+                AdaptiveEquipmentData(sr[i].Split(';'));
+        }
+        //加载物体
+        if (m_EquipmentDataList.Count > 0)
+            ItemManager.GetInstance().LoadEquipment(m_EquipmentDataList);
+    }
+
+    /// <summary>
+    /// 加载信息
+    /// </summary>
+    /// <returns></returns>
+    private void NewLoadInformationList(string content)
+    {
+        string[] sr = content.Split(new string[] { "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        m_fTimeIndex = 0;
+        if (null == sr || sr.Length <= 0)
+            return;
+        //解析数据
+        m_InformationDataList.Clear();
+        m_PublicInformationData = new InformationData();
+        m_PublicInformationData.Contentlist = new List<InfoContent>();
+        for (int i = 0; i < sr.Length; i++)
+        {
+            var _str = Regex.Replace(sr[i], @"[\0]", "");
+            AdaptiveInfomationData(_str.Split(new char[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries));
+            //AdaptiveInfomationData(_str.Split(';'));
+        }
+        //显示UI
+        //TODO:根据m_EquipmentDataList 找ID添加UI信息
+        if (m_InformationDataList.Count > 0)
+            ItemManager.GetInstance().LoadInformation(m_InformationDataList);
+        if (null != m_ThermographTool)
+            m_ThermographTool.SetValue(m_PublicInformationData);
+    }
+
+
+    #region 旧的数据读取
     /// <summary>
     /// 加载物体配置
     /// </summary>
@@ -268,22 +400,22 @@ public class DataManager : MonoBehaviour
         if (null != m_ThermographTool)
             m_ThermographTool.SetValue(m_PublicInformationData);
     }
-
+    #endregion 旧的数据读取
     /// <summary>
     /// 加载配置
     /// </summary>
     /// <returns></returns>
     private IEnumerator LoadConfig()
     {
-        var path = m_strDataPath + DATA_FILENAME_CONFIG;
+
         //var www = new WWW(path);
-        var www = new WWW(path);
+        var www = new WWW(Path_Config);
         yield return www;
         string strAll = System.Text.Encoding.UTF8.GetString(www.bytes);
         if (string.IsNullOrEmpty(strAll))
         {
             //如果无法从网络读取  从本地读测试数据
-            Debug.LogError("无法从" + path + " 获取数据,将加载测试数据." + "WWWerror:" + www.error);
+            Debug.LogError("无法从" + Path_Config + " 获取数据,将加载测试数据." + "WWWerror:" + www.error);
         }
         string[] sr = strAll.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
 

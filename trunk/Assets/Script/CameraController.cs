@@ -270,9 +270,12 @@ public class CameraController : MonoBehaviour
         {
             m_bIsTopView = true;
             m_bIsTopView = true;
-
+            var topView = GameObject.Find("TopView");
             RotateTo(Quaternion.Euler(new Vector3(90, 0, 0)));
-            MoveTo(new Vector3(0, m_MovementUpper, -1));
+            if (null == topView)
+                MoveTo(new Vector3(0, m_MovementUpper, -1));
+            else
+                MoveTo(topView.transform.position);
         }
         if (null != label)
             label.text = m_bIsTopView ? "俯视" : "顶视";

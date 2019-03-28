@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Main : MonoBehaviour
 {
     [SerializeField]
-    private string m_SceneDataPath;
+    private int m_SceneDataIndex;
 
     private bool m_bIsInit = false;
 
@@ -26,7 +26,7 @@ public class Main : MonoBehaviour
         if (!m_bIsInit)
         {
             m_bIsInit = true;
-            DataManager.GetInstance().Init(m_SceneDataPath);
+            DataManager.GetInstance().Init(m_SceneDataIndex);
             DataManager.GetInstance().Load();
             Application.ExternalCall("OnLoadFinish");
         }
