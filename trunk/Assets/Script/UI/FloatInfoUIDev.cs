@@ -26,6 +26,7 @@ public class FloatInfoUIDev : MonoBehaviour
     [SerializeField]
     private float m_fSpacing = 0;
 
+    private RectTransform m_BG_Rect;
     public string ID { get { return null == m_Data ? string.Empty : m_Data.ID; } }
 
     private float m_AnimTimeIndex;
@@ -51,6 +52,8 @@ public class FloatInfoUIDev : MonoBehaviour
         m_scale = transform.localScale;
         m_fSpacing = m_ListTransform.GetComponent<VerticalLayoutGroup>().spacing;
         m_TweenPlayer = transform.GetComponent<TweenPlayer>();
+        if (null != m_ImageBG)
+            m_BG_Rect = m_ImageBG.GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -174,6 +177,14 @@ public class FloatInfoUIDev : MonoBehaviour
         var der = m_Content.sizeDelta;
         der.y = hight;
         m_Content.sizeDelta = der;
+
+        if (null != m_BG_Rect)
+        {
+            var bgsize = m_BG_Rect.sizeDelta;
+            bgsize.y = hight + 32;
+            bgsize.y *= 2;
+            m_BG_Rect.sizeDelta = bgsize;
+        }
     }
 
     public void SetHidenItemState(bool isShow)
