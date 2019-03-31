@@ -565,6 +565,7 @@
     <None Include="Assets\Resources\Data\Scene1\EquipmentData.txt" />
     <None Include="Assets\Resources\Data\Scene1\InformationList.txt" />
     <None Include="Assets\Resources\Material\3DText.shader" />
+    <None Include="Assets\Resources\Material\Flag.shader" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Light.uss" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\Alert.uxml" />
