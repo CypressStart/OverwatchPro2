@@ -139,12 +139,16 @@ public class FloatInfoUIDev : MonoBehaviour
         m_nTotalInfoCount = list.Count;
         m_nNormalInfoCount = 0;
         if (null != m_ImageBG)
+        {
+            info.PanelColor.a = .75f;
             m_ImageBG.color = info.PanelColor;
+        }
         for (int i = 0; i < list.Count; i++)
         {
             if (list[i].Name == "设备名")
             {
                 m_NameLabel.text = list[i].Value;
+                m_nTotalInfoCount -= 1;
                 continue;
             }
             if (list[i].ViewType == EContentViewType.E_Show)
@@ -181,7 +185,7 @@ public class FloatInfoUIDev : MonoBehaviour
         if (null != m_BG_Rect)
         {
             var bgsize = m_BG_Rect.sizeDelta;
-            bgsize.y = hight + 32;
+            bgsize.y = hight + 20.95f;
             bgsize.y *= 2;
             m_BG_Rect.sizeDelta = bgsize;
         }
@@ -207,6 +211,8 @@ public class FloatInfoUIDev : MonoBehaviour
     public void ShowDetail()
     {
         if (m_bIsShowDetail) return;
+        if (m_nNormalInfoCount == m_ItemList.Count || m_ItemList.Count == 1)
+            return;
         SetHidenItemState(true);
         m_bIsShowDetail = true;
 
