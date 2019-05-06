@@ -235,10 +235,18 @@ public class FloatInfoUIDev : MonoBehaviour
     public void BtnGoToLink()
     {
         var link = DataManager.GetInstance().GetLink(ID);
-        if (!string.IsNullOrEmpty(link))
-            Application.ExternalCall("OnSelect", link);
-        if (!string.IsNullOrEmpty(link))
-            Application.OpenURL(link);
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            if (!string.IsNullOrEmpty(link))
+                Application.ExternalCall("OpenURL", link);
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(link))
+                Application.OpenURL(link);
+        }
+        Debug.LogError(link);
     }
 
     /// <summary>

@@ -47,6 +47,15 @@ public class PartItem : ItemBase
             return;
         transform.position = partData.Pos;
         transform.rotation = partData.Rot;
+        transform.localScale = Vector3.one * partData.ScaleValue;
+
+        if (partData.IsHideLandMark)
+        {
+            var markobj = transform.Find("Landmark");
+            if (null != markobj)
+                markobj.gameObject.SetActive(false);
+        }
+
         HUDName = partData.Name;
         if (null != HUD)
         {

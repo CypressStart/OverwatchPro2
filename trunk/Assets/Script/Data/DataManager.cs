@@ -548,6 +548,9 @@ public class DataManager : MonoBehaviour
         if (null == strArr || strArr.Length <= 0)
             return;
         var data = new PartData();
+        data.ScaleValue = 1;
+        data.IsHideLandMark = false;
+
         for (int i = 0; i < strArr.Length; i++)
         {
             if (string.IsNullOrEmpty(strArr[i]))
@@ -563,6 +566,8 @@ public class DataManager : MonoBehaviour
                     break;
 
                 case "ROT": data.Rot = Quaternion.Euler(0, float.Parse(optionArr[1]), 0); break;
+                case "SCALE": data.ScaleValue = float.Parse(optionArr[1]); break;//新加缩放
+                case "HIDE_LANDMARK": data.IsHideLandMark = true; break;//新加缩放
                 case "TYPE": data.ItemType = optionArr[1]; break;
                 case "X": data.Pos.x = float.Parse(optionArr[1]); break;
                 case "Y": data.Pos.y = float.Parse(optionArr[1]); break;
@@ -744,8 +749,10 @@ public struct PartData
 {
     public string ID;//ID去找各自工位
     public Vector3 Pos;
-    public Quaternion Rot;//角度
     public string Link;
+    public Quaternion Rot;//角度
+    public float ScaleValue;//0到无情大
+    public bool IsHideLandMark;//是否隐藏设备的黄圈 默认不隐藏
     public string Name;//机柜有
     public string ItemType;
 }
