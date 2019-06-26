@@ -30,3 +30,6 @@ ZR03@Prefab/Equipment/zairenlou/ZR03
 ZR04@Prefab/Equipment/zairenlou/ZR04
 SK01@Prefab/Equipment/sankualou/sk01
 SK02@Prefab/Equipment/sankualou/sk02
+Camera1@Prefab/Equipment/general/Camera1
+Camera2@Prefab/Equipment/general/Camera2
+Cabinet@Prefab/Equipment/general/Cabinet
